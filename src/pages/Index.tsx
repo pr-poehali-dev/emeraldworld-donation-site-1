@@ -45,6 +45,13 @@ const donationTiers: DonationTier[] = [
     price: 29,
     icon: 'Skull',
     features: ['Тёмная аура', 'Ускоренный опыт', 'Особый инвентарь']
+  },
+  {
+    id: 'test',
+    name: 'Тестовый донат',
+    price: 30,
+    icon: 'TestTube',
+    features: ['Тестовые привилегии', 'Для проверки системы']
   }
 ];
 
@@ -69,11 +76,11 @@ const newsItems = [
 const faqItems = [
   {
     question: 'Как зайти на сервер?',
-    answer: 'Используйте IP адрес: play.emeraldworld.ru в Minecraft клиенте'
+    answer: 'Используйте IP адрес: emeraldworld.aternos.me в Minecraft клиенте'
   },
   {
     question: 'Какая версия Minecraft поддерживается?',
-    answer: 'Мы поддерживаем версии от 1.16 до 1.20'
+    answer: 'Сервер работает на версии 1.14.1'
   },
   {
     question: 'Как получить донат после оплаты?',
