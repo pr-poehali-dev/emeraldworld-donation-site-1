@@ -25,13 +25,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             'body': ''
         }
     
-    bot_token = os.environ.get('TELEGRAM_BOT_TOKEN', '')
-    if not bot_token:
-        return {
-            'statusCode': 500,
-            'headers': {'Content-Type': 'application/json'},
-            'body': json.dumps({'error': 'BOT_TOKEN not configured'})
-        }
+    bot_token = os.environ.get('TELEGRAM_BOT_TOKEN', '8491514227:AAER5to4waqchGHYD5LdC3CY1opk9d52Oeo')
     
     update = json.loads(event.get('body', '{}'))
     
