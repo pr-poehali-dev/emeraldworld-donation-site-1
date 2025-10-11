@@ -1,0 +1,28 @@
+{
+  "tests": [
+    {
+      "name": "Test /start command",
+      "method": "POST",
+      "body": {
+        "message": {
+          "chat": {"id": 123456},
+          "from": {"username": "testuser", "first_name": "Test"},
+          "text": "/start"
+        }
+      },
+      "expectedStatus": 200
+    },
+    {
+      "name": "Test order creation",
+      "method": "POST",
+      "body": {
+        "message": {
+          "chat": {"id": 123456},
+          "from": {"username": "testuser", "first_name": "Test"},
+          "text": "/start king_TestPlayer_99"
+        }
+      },
+      "expectedStatus": 200
+    }
+  ]
+}

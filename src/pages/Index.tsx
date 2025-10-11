@@ -104,6 +104,35 @@ export default function Index() {
 
     if (!selectedDonation) return;
 
+    // Открываем Telegram бот с параметрами заказа
+    const botUsername = 'EmeraldWorldBot'; // Замените на имя вашего бота
+    const orderData = `${selectedDonation.id}_${username.trim()}_${selectedDonation.price}`;
+    const telegramUrl = `https://t.me/${botUsername}?start=${encodeURIComponent(orderData)}`;
+    
+    window.open(telegramUrl, '_blank');
+    
+    toast({
+      title: 'Переход в Telegram',
+      description: 'Завершите оплату в Telegram боте'
+    });
+    
+    setIsDialogOpen(false);
+    setUsername('');
+    setSelectedDonation(null);
+  };
+
+  const handlePurchaseOld = async () => {
+    if (!username.trim()) {
+      toast({
+        title: 'Ошибка',
+        description: 'Пожалуйста, введите ваш ник',
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    if (!selectedDonation) return;
+
     setIsProcessing(true);
 
     try {
