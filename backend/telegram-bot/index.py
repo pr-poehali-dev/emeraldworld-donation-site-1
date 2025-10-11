@@ -78,8 +78,6 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
 2️⃣ В комментарии к переводу укажите:
 <code>{nickname}</code>
 
-3️⃣ После перевода отправьте скриншот чека сюда
-
 ⏱ Донат будет выдан в течение 5 минут после проверки оплаты
 
 ❓ Вопросы? Напишите @admin"""
@@ -112,7 +110,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
 ⚡️ Выдача в течение 5 минут"""
                 send_message(bot_token, chat_id, welcome_message)
         
-        # Обработка фото (скриншот чека)
+        # Обработка фото (скриншот чека) - опционально
         elif 'photo' in message:
             admin_chat_id = '8431748047'
             username = message['from'].get('username', 'Unknown')
@@ -124,9 +122,6 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             
             send_photo(bot_token, admin_chat_id, photo_id, caption)
             send_message(bot_token, chat_id, '✅ Чек получен! Ожидайте проверки администратора.')
-        
-        else:
-            send_message(bot_token, chat_id, 'Отправьте скриншот чека об оплате или вернитесь на сайт для нового заказа.')
         
     except Exception as e:
         # Логируем ошибку но возвращаем 200 чтобы Telegram не повторял запрос
