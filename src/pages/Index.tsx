@@ -220,14 +220,14 @@ export default function Index() {
         </div>
       </nav>
 
-      <section id="hero" className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+      <section id="hero" className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-emerald-950/50 via-black to-black"></div>
         <div className="absolute inset-0" style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23059669' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
         }}></div>
         
         <div className="relative z-10 text-center px-4">
-          <h1 className="minecraft-text text-6xl md:text-8xl lg:text-9xl font-black mb-6 animate-fade-in">
+          <h1 className="minecraft-text text-5xl md:text-6xl font-black mb-4 animate-fade-in">
             <span className="text-black bg-clip-text" style={{
               WebkitTextStroke: '3px #059669',
               paintOrder: 'stroke fill'
@@ -237,29 +237,29 @@ export default function Index() {
               paintOrder: 'stroke fill'
             }}>WORLD</span>
           </h1>
-          <p className="text-xl md:text-2xl text-emerald-400 mb-8 animate-fade-in font-semibold">
+          <p className="text-lg md:text-xl text-emerald-400 mb-6 animate-fade-in font-semibold">
             Лучший Minecraft сервер с уникальными возможностями
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in">
-            <Button size="lg" onClick={() => scrollToSection('donations')} className="bg-emerald-600 hover:bg-emerald-700 text-lg px-8">
-              <Icon name="Gem" className="mr-2" size={20} />
+          <div className="flex flex-col sm:flex-row gap-3 justify-center animate-fade-in">
+            <Button onClick={() => scrollToSection('donations')} className="bg-emerald-600 hover:bg-emerald-700 px-6">
+              <Icon name="Gem" className="mr-2" size={18} />
               Донаты
             </Button>
-            <Button size="lg" variant="outline" onClick={() => scrollToSection('rules')} className="border-emerald-600 text-emerald-400 hover:bg-emerald-950 text-lg px-8">
+            <Button variant="outline" onClick={() => scrollToSection('rules')} className="border-emerald-600 text-emerald-400 hover:bg-emerald-950 px-6">
               Правила сервера
             </Button>
           </div>
-          <div className="mt-12 inline-flex items-center gap-2 px-6 py-3 bg-emerald-950/50 border border-emerald-700 rounded">
-            <Icon name="Server" className="text-emerald-400" size={20} />
-            <span className="text-emerald-400 font-semibold">IP: play.emeraldworld.ru</span>
+          <div className="mt-8 inline-flex items-center gap-2 px-4 py-2 bg-emerald-950/50 border border-emerald-700 rounded">
+            <Icon name="Server" className="text-emerald-400" size={18} />
+            <span className="text-emerald-400 font-semibold text-sm">IP: emeraldworld.aternos.me</span>
           </div>
         </div>
       </section>
 
-      <section id="donations" className="py-20 bg-gradient-to-b from-black to-emerald-950/20">
+      <section id="donations" className="py-12 bg-gradient-to-b from-black to-emerald-950/20">
         <div className="container mx-auto px-4">
-          <h2 className="minecraft-text text-4xl md:text-5xl text-center mb-4 text-emerald-400">ДОНАТЫ</h2>
-          <p className="text-center text-gray-400 mb-12 max-w-2xl mx-auto">
+          <h2 className="minecraft-text text-3xl md:text-4xl text-center mb-3 text-emerald-400">ДОНАТЫ</h2>
+          <p className="text-center text-gray-400 mb-8 max-w-2xl mx-auto text-sm">
             Поддержите сервер и получите уникальные привилегии
           </p>
           
