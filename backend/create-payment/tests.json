@@ -1,0 +1,28 @@
+{
+  "tests": [
+    {
+      "name": "Create payment request",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "username": "TestPlayer",
+        "donation_name": "Король",
+        "price": 99,
+        "return_url": "https://emeraldworld.ru/success"
+      },
+      "expectedStatus": 200,
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Invalid price",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "username": "TestPlayer",
+        "donation_name": "Демон",
+        "price": 0
+      },
+      "expectedStatus": 400
+    }
+  ]
+}

@@ -89,9 +89,10 @@ export default function Index() {
   const [selectedDonation, setSelectedDonation] = useState<DonationTier | null>(null);
   const [username, setUsername] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const { toast } = useToast();
 
-  const handlePurchase = () => {
+  const handlePurchase = async () => {
     if (!username.trim()) {
       toast({
         title: 'Ошибка',
@@ -101,14 +102,56 @@ export default function Index() {
       return;
     }
 
-    toast({
-      title: 'Заявка отправлена!',
-      description: `Донат "${selectedDonation?.name}" для игрока ${username} обрабатывается`,
-    });
+    if (!selectedDonation) return;
 
-    setIsDialogOpen(false);
-    setUsername('');
-    setSelectedDonation(null);
+    setIsProcessing(true);
+
+    try {
+      const response = await fetch('https://functions.poehali.dev/da8b0bfe-1e90-42ee-ac51-e8e25a4eca5e', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username,
+          donation_name: selectedDonation.name,
+          price: selectedDonation.price,
+          return_url: window.location.origin
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.success && data.payment_url) {
+        await fetch('https://functions.poehali.dev/8528e965-2bc1-4cf3-9250-ff413c696847', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: username,
+            donation_name: selectedDonation.name,
+            price: selectedDonation.price
+          })
+        });
+
+        window.location.href = data.payment_url;
+      } else {
+        toast({
+          title: 'Ошибка',
+          description: 'Не удалось создать платёж. Попробуйте позже.',
+          variant: 'destructive'
+        });
+      }
+    } catch (error) {
+      toast({
+        title: 'Ошибка',
+        description: 'Произошла ошибка при создании платежа',
+        variant: 'destructive'
+      });
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   const scrollToSection = (id: string) => {
@@ -250,8 +293,12 @@ export default function Index() {
                           </div>
                         </div>
                       </div>
-                      <Button onClick={handlePurchase} className="w-full bg-emerald-600 hover:bg-emerald-700">
-                        Подтвердить покупку
+                      <Button 
+                        onClick={handlePurchase} 
+                        disabled={isProcessing}
+                        className="w-full bg-emerald-600 hover:bg-emerald-700"
+                      >
+                        {isProcessing ? 'Обработка...' : 'Перейти к оплате'}
                       </Button>
                     </DialogContent>
                   </Dialog>

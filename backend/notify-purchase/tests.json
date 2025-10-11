@@ -1,0 +1,29 @@
+{
+  "tests": [
+    {
+      "name": "Send notification test",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "username": "TestPlayer",
+        "donation_name": "Король",
+        "price": 99
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": true
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Missing username",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "donation_name": "Демон",
+        "price": 69
+      },
+      "expectedStatus": 400
+    }
+  ]
+}

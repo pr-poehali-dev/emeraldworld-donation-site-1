@@ -1,0 +1,4 @@
+{
+  "notify-purchase": "https://functions.poehali.dev/8528e965-2bc1-4cf3-9250-ff413c696847",
+  "create-payment": "https://functions.poehali.dev/da8b0bfe-1e90-42ee-ac51-e8e25a4eca5e"
+}
