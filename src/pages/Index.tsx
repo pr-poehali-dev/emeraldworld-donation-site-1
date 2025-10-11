@@ -267,18 +267,18 @@ export default function Index() {
             {donationTiers.map((tier) => (
               <Card key={tier.id} className="bg-gradient-to-b from-emerald-950/50 to-black border-emerald-700 hover:border-emerald-500 transition-all hover:scale-105">
                 <CardHeader className="text-center">
-                  <div className="mx-auto mb-4 w-16 h-16 bg-emerald-600 rounded-lg flex items-center justify-center">
-                    <Icon name={tier.icon as any} size={32} className="text-white" />
+                  <div className="mx-auto mb-3 w-12 h-12 bg-emerald-600 rounded-lg flex items-center justify-center">
+                    <Icon name={tier.icon as any} size={24} className="text-white" />
                   </div>
-                  <CardTitle className="minecraft-text text-2xl text-emerald-400">{tier.name}</CardTitle>
-                  <CardDescription className="text-3xl font-bold text-white mt-2">{tier.price}₽</CardDescription>
+                  <CardTitle className="minecraft-text text-xl text-emerald-400">{tier.name}</CardTitle>
+                  <CardDescription className="text-2xl font-bold text-white mt-2">{tier.price}₽</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-2">
                     {tier.features.map((feature, idx) => (
                       <li key={idx} className="flex items-start gap-2">
-                        <Icon name="Check" size={16} className="text-emerald-400 mt-1 flex-shrink-0" />
-                        <span className="text-sm text-gray-300">{feature}</span>
+                        <Icon name="Check" size={14} className="text-emerald-400 mt-1 flex-shrink-0" />
+                        <span className="text-xs text-gray-300">{feature}</span>
                       </li>
                     ))}
                   </ul>
@@ -345,67 +345,67 @@ export default function Index() {
         </div>
       </section>
 
-      <section id="rules" className="py-20 bg-black">
+      <section id="rules" className="py-12 bg-black">
         <div className="container mx-auto px-4 max-w-4xl">
-          <h2 className="minecraft-text text-4xl md:text-5xl text-center mb-12 text-emerald-400">ПРАВИЛА</h2>
+          <h2 className="minecraft-text text-3xl md:text-4xl text-center mb-8 text-emerald-400">ПРАВИЛА</h2>
           
           <div className="space-y-6">
             <Card className="bg-gradient-to-r from-emerald-950/50 to-black border-emerald-700">
               <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-emerald-400">
-                  <Icon name="Shield" size={24} />
+                <CardTitle className="flex items-center gap-2 text-emerald-400 text-base">
+                  <Icon name="Shield" size={20} />
                   1. Уважение к игрокам
                 </CardTitle>
               </CardHeader>
-              <CardContent className="text-gray-300">
+              <CardContent className="text-gray-300 text-sm">
                 Запрещены оскорбления, угрозы и любые формы дискриминации. Будьте вежливы и дружелюбны.
               </CardContent>
             </Card>
 
             <Card className="bg-gradient-to-r from-emerald-950/50 to-black border-emerald-700">
               <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-emerald-400">
-                  <Icon name="Ban" size={24} />
+                <CardTitle className="flex items-center gap-2 text-emerald-400 text-base">
+                  <Icon name="Ban" size={20} />
                   2. Читы и моды
                 </CardTitle>
               </CardHeader>
-              <CardContent className="text-gray-300">
+              <CardContent className="text-gray-300 text-sm">
                 Использование читов, X-Ray и других запрещенных модификаций карается перманентным баном.
               </CardContent>
             </Card>
 
             <Card className="bg-gradient-to-r from-emerald-950/50 to-black border-emerald-700">
               <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-emerald-400">
-                  <Icon name="Home" size={24} />
+                <CardTitle className="flex items-center gap-2 text-emerald-400 text-base">
+                  <Icon name="Home" size={20} />
                   3. Гриферство
                 </CardTitle>
               </CardHeader>
-              <CardContent className="text-gray-300">
+              <CardContent className="text-gray-300 text-sm">
                 Разрушение чужих построек без разрешения строго запрещено. Используйте приват для защиты территории.
               </CardContent>
             </Card>
 
             <Card className="bg-gradient-to-r from-emerald-950/50 to-black border-emerald-700">
               <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-emerald-400">
-                  <Icon name="MessageSquare" size={24} />
+                <CardTitle className="flex items-center gap-2 text-emerald-400 text-base">
+                  <Icon name="MessageSquare" size={20} />
                   4. Спам и реклама
                 </CardTitle>
               </CardHeader>
-              <CardContent className="text-gray-300">
+              <CardContent className="text-gray-300 text-sm">
                 Запрещен спам в чате и реклама сторонних серверов. За нарушение - мут или бан.
               </CardContent>
             </Card>
 
             <Card className="bg-gradient-to-r from-emerald-950/50 to-black border-emerald-700">
               <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-emerald-400">
-                  <Icon name="Bug" size={24} />
+                <CardTitle className="flex items-center gap-2 text-emerald-400 text-base">
+                  <Icon name="Bug" size={20} />
                   5. Баги и эксплойты
                 </CardTitle>
               </CardHeader>
-              <CardContent className="text-gray-300">
+              <CardContent className="text-gray-300 text-sm">
                 Использование багов для получения преимущества запрещено. Обо всех найденных багах сообщайте администрации.
               </CardContent>
             </Card>
@@ -413,9 +413,9 @@ export default function Index() {
         </div>
       </section>
 
-      <section id="news" className="py-20 bg-gradient-to-b from-black to-emerald-950/20">
+      <section id="news" className="py-12 bg-gradient-to-b from-black to-emerald-950/20">
         <div className="container mx-auto px-4 max-w-4xl">
-          <h2 className="minecraft-text text-4xl md:text-5xl text-center mb-12 text-emerald-400">НОВОСТИ</h2>
+          <h2 className="minecraft-text text-3xl md:text-4xl text-center mb-8 text-emerald-400">НОВОСТИ</h2>
           
           <div className="space-y-6">
             {newsItems.map((item, idx) => (
@@ -423,11 +423,11 @@ export default function Index() {
                 <CardHeader>
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
-                      <CardTitle className="text-emerald-400 mb-2">{item.title}</CardTitle>
-                      <CardDescription className="text-gray-400">{item.description}</CardDescription>
+                      <CardTitle className="text-emerald-400 mb-2 text-base">{item.title}</CardTitle>
+                      <CardDescription className="text-gray-400 text-sm">{item.description}</CardDescription>
                     </div>
                     <div className="text-xs text-emerald-500 whitespace-nowrap">
-                      <Icon name="Calendar" size={14} className="inline mr-1" />
+                      <Icon name="Calendar" size={12} className="inline mr-1" />
                       {item.date}
                     </div>
                   </div>
@@ -438,17 +438,17 @@ export default function Index() {
         </div>
       </section>
 
-      <section id="faq" className="py-20 bg-black">
+      <section id="faq" className="py-12 bg-black">
         <div className="container mx-auto px-4 max-w-4xl">
-          <h2 className="minecraft-text text-4xl md:text-5xl text-center mb-12 text-emerald-400">ВОПРОСЫ И ОТВЕТЫ</h2>
+          <h2 className="minecraft-text text-3xl md:text-4xl text-center mb-8 text-emerald-400">ВОПРОСЫ И ОТВЕТЫ</h2>
           
           <Accordion type="single" collapsible className="space-y-4">
             {faqItems.map((item, idx) => (
               <AccordionItem key={idx} value={`item-${idx}`} className="border border-emerald-700 rounded-lg px-6 bg-emerald-950/30">
-                <AccordionTrigger className="text-emerald-400 hover:text-emerald-300">
+                <AccordionTrigger className="text-emerald-400 hover:text-emerald-300 text-sm">
                   {item.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-300">
+                <AccordionContent className="text-gray-300 text-sm">
                   {item.answer}
                 </AccordionContent>
               </AccordionItem>
@@ -457,51 +457,51 @@ export default function Index() {
         </div>
       </section>
 
-      <section id="contacts" className="py-20 bg-gradient-to-b from-black to-emerald-950/20">
+      <section id="contacts" className="py-12 bg-gradient-to-b from-black to-emerald-950/20">
         <div className="container mx-auto px-4 max-w-4xl text-center">
-          <h2 className="minecraft-text text-4xl md:text-5xl mb-12 text-emerald-400">КОНТАКТЫ</h2>
+          <h2 className="minecraft-text text-3xl md:text-4xl mb-8 text-emerald-400">КОНТАКТЫ</h2>
           
           <div className="grid md:grid-cols-3 gap-6 mb-12">
             <Card className="bg-gradient-to-b from-emerald-950/50 to-black border-emerald-700">
               <CardHeader>
-                <div className="mx-auto w-12 h-12 bg-emerald-600 rounded-lg flex items-center justify-center mb-3">
-                  <Icon name="Mail" size={24} />
+                <div className="mx-auto w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center mb-2">
+                  <Icon name="Mail" size={20} />
                 </div>
-                <CardTitle className="text-emerald-400">Email</CardTitle>
+                <CardTitle className="text-emerald-400 text-base">Email</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-300">support@emeraldworld.ru</p>
+                <p className="text-gray-300 text-sm">support@emeraldworld.ru</p>
               </CardContent>
             </Card>
 
             <Card className="bg-gradient-to-b from-emerald-950/50 to-black border-emerald-700">
               <CardHeader>
-                <div className="mx-auto w-12 h-12 bg-emerald-600 rounded-lg flex items-center justify-center mb-3">
-                  <Icon name="MessageCircle" size={24} />
+                <div className="mx-auto w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center mb-2">
+                  <Icon name="MessageCircle" size={20} />
                 </div>
-                <CardTitle className="text-emerald-400">Discord</CardTitle>
+                <CardTitle className="text-emerald-400 text-base">Discord</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-300">discord.gg/emeraldworld</p>
+                <p className="text-gray-300 text-sm">discord.gg/emeraldworld</p>
               </CardContent>
             </Card>
 
             <Card className="bg-gradient-to-b from-emerald-950/50 to-black border-emerald-700">
               <CardHeader>
-                <div className="mx-auto w-12 h-12 bg-emerald-600 rounded-lg flex items-center justify-center mb-3">
-                  <Icon name="Send" size={24} />
+                <div className="mx-auto w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center mb-2">
+                  <Icon name="Send" size={20} />
                 </div>
-                <CardTitle className="text-emerald-400">Telegram</CardTitle>
+                <CardTitle className="text-emerald-400 text-base">Telegram</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-300">@emeraldworld</p>
+                <p className="text-gray-300 text-sm">@emeraldworld</p>
               </CardContent>
             </Card>
           </div>
 
           <Separator className="bg-emerald-700 my-8" />
 
-          <p className="text-gray-400">
+          <p className="text-gray-400 text-sm">
             © 2025 EmeraldWorld. Все права защищены.
           </p>
         </div>
