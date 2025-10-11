@@ -105,7 +105,7 @@ export default function Index() {
     if (!selectedDonation) return;
 
     // Открываем Telegram бот с параметрами заказа
-    const botUsername = 'EmeraldWorldBot'; // Замените на имя вашего бота
+    const botUsername = 'EmeraldworldBot';
     const orderData = `${selectedDonation.id}_${username.trim()}_${selectedDonation.price}`;
     const telegramUrl = `https://t.me/${botUsername}?start=${encodeURIComponent(orderData)}`;
     
