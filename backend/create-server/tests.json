@@ -1,0 +1,29 @@
+{
+  "tests": [
+    {
+      "name": "Create Minecraft server",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "serverName": "Test Server",
+        "serverVersion": "1.20.1"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "serverId": "string",
+        "serverName": "Test Server",
+        "version": "1.20.1",
+        "status": "running",
+        "ip": "string",
+        "port": "number"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Handle OPTIONS request",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    }
+  ]
+}

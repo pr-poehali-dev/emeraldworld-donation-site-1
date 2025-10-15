@@ -105,6 +105,10 @@ export default function Index() {
   const [username, setUsername] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isHostingDialogOpen, setIsHostingDialogOpen] = useState(false);
+  const [serverName, setServerName] = useState('');
+  const [serverVersion, setServerVersion] = useState('1.20.1');
+  const [isCreatingServer, setIsCreatingServer] = useState(false);
   const { toast } = useToast();
 
   const handlePurchase = async () => {
@@ -201,6 +205,55 @@ export default function Index() {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     element?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleCreateServer = async () => {
+    if (!serverName.trim()) {
+      toast({
+        title: 'Ошибка',
+        description: 'Введите название сервера',
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    setIsCreatingServer(true);
+    
+    try {
+      const response = await fetch('https://functions.poehali.dev/d87fe1d9-863c-4e8d-aad0-24c39fe29d1e', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          serverName: serverName,
+          serverVersion: serverVersion
+        })
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        toast({
+          title: 'Сервер создан!',
+          description: `IP: ${data.ip}:${data.port} | Версия: ${data.version}`,
+          duration: 10000
+        });
+        
+        setIsHostingDialogOpen(false);
+        setServerName('');
+      } else {
+        throw new Error(data.error || 'Ошибка создания сервера');
+      }
+    } catch (error) {
+      toast({
+        title: 'Ошибка',
+        description: 'Не удалось создать сервер',
+        variant: 'destructive'
+      });
+    } finally {
+      setIsCreatingServer(false);
+    }
   };
 
   return (
@@ -533,6 +586,83 @@ export default function Index() {
           </div>
 
           <Separator className="bg-emerald-700 my-8" />
+
+          <div className="mb-8">
+            <Dialog open={isHostingDialogOpen} onOpenChange={setIsHostingDialogOpen}>
+              <DialogTrigger asChild>
+                <Button className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 px-8 py-6 text-lg">
+                  <Icon name="Server" className="mr-2" size={24} />
+                  Создать свой Minecraft сервер
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="bg-gradient-to-b from-emerald-950 to-black border-emerald-700">
+                <DialogHeader>
+                  <DialogTitle className="minecraft-text text-emerald-400 text-2xl">СОЗДАТЬ СЕРВЕР</DialogTitle>
+                  <DialogDescription className="text-gray-400">
+                    Создайте свой собственный Minecraft сервер за минуту
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4 py-4">
+                  <div>
+                    <Label htmlFor="server-name" className="text-emerald-400">Название сервера</Label>
+                    <Input
+                      id="server-name"
+                      placeholder="Мой крутой сервер"
+                      value={serverName}
+                      onChange={(e) => setServerName(e.target.value)}
+                      className="bg-black border-emerald-700 text-white mt-2"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="server-version" className="text-emerald-400">Версия Minecraft</Label>
+                    <select
+                      id="server-version"
+                      value={serverVersion}
+                      onChange={(e) => setServerVersion(e.target.value)}
+                      className="w-full mt-2 bg-black border border-emerald-700 text-white rounded-md px-3 py-2"
+                    >
+                      <option value="1.20.1">1.20.1 (последняя)</option>
+                      <option value="1.19.4">1.19.4</option>
+                      <option value="1.18.2">1.18.2</option>
+                      <option value="1.16.5">1.16.5</option>
+                      <option value="1.12.2">1.12.2</option>
+                    </select>
+                  </div>
+                  <div className="bg-emerald-950/30 border border-emerald-800 rounded-lg p-4">
+                    <h4 className="text-emerald-400 font-semibold mb-2 flex items-center gap-2">
+                      <Icon name="CheckCircle" size={18} />
+                      Что включено:
+                    </h4>
+                    <ul className="space-y-1 text-sm text-gray-300">
+                      <li className="flex items-center gap-2">
+                        <Icon name="Check" size={14} className="text-emerald-400" />
+                        Бесплатный хостинг 24/7
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Icon name="Check" size={14} className="text-emerald-400" />
+                        До 20 игроков одновременно
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Icon name="Check" size={14} className="text-emerald-400" />
+                        Автоматическая установка плагинов
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Icon name="Check" size={14} className="text-emerald-400" />
+                        Защита от DDoS атак
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <Button 
+                  onClick={handleCreateServer} 
+                  disabled={isCreatingServer}
+                  className="w-full bg-emerald-600 hover:bg-emerald-700"
+                >
+                  {isCreatingServer ? 'Создаём сервер...' : 'Создать сервер'}
+                </Button>
+              </DialogContent>
+            </Dialog>
+          </div>
 
           <p className="text-gray-400 text-sm">
             © 2025 EmeraldWorld. Все права защищены.
