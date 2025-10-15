@@ -27,12 +27,30 @@ export default function Dashboard() {
     loadServers();
   }, []);
 
-  const loadServers = () => {
-    const savedServers = localStorage.getItem('myServers');
-    if (savedServers) {
-      setServers(JSON.parse(savedServers));
+  const loadServers = async () => {
+    try {
+      const userId = localStorage.getItem('userId');
+      if (!userId) {
+        setIsLoading(false);
+        return;
+      }
+
+      const response = await fetch('https://functions.poehali.dev/97ba201c-8175-49fe-9619-40c98f6f1764', {
+        method: 'GET',
+        headers: {
+          'X-User-Id': userId
+        }
+      });
+
+      const data = await response.json();
+      if (response.ok && data.servers) {
+        setServers(data.servers);
+      }
+    } catch (error) {
+      console.error('Error loading servers:', error);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const handleServerAction = async (serverId: string, action: 'start' | 'stop' | 'restart') => {
@@ -42,30 +60,63 @@ export default function Dashboard() {
         : server
     ));
 
-    setTimeout(() => {
-      setServers(prev => prev.map(server => 
-        server.serverId === serverId 
-          ? { ...server, status: action === 'stop' ? 'stopped' : 'running' as any }
-          : server
-      ));
-      
-      toast({
-        title: 'Успешно!',
-        description: `Сервер ${action === 'stop' ? 'остановлен' : action === 'restart' ? 'перезапущен' : 'запущен'}`,
+    try {
+      const response = await fetch('https://functions.poehali.dev/97ba201c-8175-49fe-9619-40c98f6f1764', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          serverId: serverId,
+          action: action
+        })
       });
-    }, 1500);
+
+      const data = await response.json();
+      if (response.ok) {
+        setServers(prev => prev.map(server => 
+          server.serverId === serverId 
+            ? { ...server, status: data.newStatus as any }
+            : server
+        ));
+        
+        toast({
+          title: 'Успешно!',
+          description: `Сервер ${action === 'stop' ? 'остановлен' : action === 'restart' ? 'перезапущен' : 'запущен'}`,
+        });
+      }
+    } catch (error) {
+      toast({
+        title: 'Ошибка',
+        description: 'Не удалось выполнить действие',
+        variant: 'destructive'
+      });
+    }
   };
 
-  const handleDeleteServer = (serverId: string) => {
-    const newServers = servers.filter(s => s.serverId !== serverId);
-    setServers(newServers);
-    localStorage.setItem('myServers', JSON.stringify(newServers));
-    
-    toast({
-      title: 'Сервер удалён',
-      description: 'Сервер успешно удалён',
-      variant: 'destructive'
-    });
+  const handleDeleteServer = async (serverId: string) => {
+    try {
+      const response = await fetch(`https://functions.poehali.dev/97ba201c-8175-49fe-9619-40c98f6f1764?serverId=${serverId}`, {
+        method: 'DELETE'
+      });
+
+      if (response.ok) {
+        const newServers = servers.filter(s => s.serverId !== serverId);
+        setServers(newServers);
+        
+        toast({
+          title: 'Сервер удалён',
+          description: 'Сервер успешно удалён',
+          variant: 'destructive'
+        });
+      }
+    } catch (error) {
+      toast({
+        title: 'Ошибка',
+        description: 'Не удалось удалить сервер',
+        variant: 'destructive'
+      });
+    }
   };
 
   const copyToClipboard = async (text: string) => {

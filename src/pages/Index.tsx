@@ -220,10 +220,14 @@ export default function Index() {
     setIsCreatingServer(true);
     
     try {
-      const response = await fetch('https://functions.poehali.dev/d87fe1d9-863c-4e8d-aad0-24c39fe29d1e', {
+      const userId = localStorage.getItem('userId') || `user_${Date.now()}`;
+      localStorage.setItem('userId', userId);
+
+      const response = await fetch('https://functions.poehali.dev/97ba201c-8175-49fe-9619-40c98f6f1764', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'X-User-Id': userId
         },
         body: JSON.stringify({
           serverName: serverName,
@@ -234,14 +238,9 @@ export default function Index() {
       const data = await response.json();
       
       if (response.ok) {
-        const savedServers = localStorage.getItem('myServers');
-        const servers = savedServers ? JSON.parse(savedServers) : [];
-        servers.push(data);
-        localStorage.setItem('myServers', JSON.stringify(servers));
-
         toast({
           title: 'Сервер создан!',
-          description: `IP: ${data.ip}:${data.port} | Версия: ${data.version}`,
+          description: `${data.message} IP: ${data.ip}:${data.port}`,
           duration: 5000
         });
         
