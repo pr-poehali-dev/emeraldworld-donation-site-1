@@ -29,17 +29,16 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         server_version = body_data.get('serverVersion', '1.20.1')
         
         server_id = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
-        server_port = random.randint(25565, 30000)
         
         server_details = {
             'serverId': server_id,
             'serverName': server_name,
             'version': server_version,
             'status': 'running',
-            'ip': f'{server_id}.emeraldworld.host',
-            'port': server_port,
+            'ip': 'emeraldworld.aternos.me',
+            'port': 25565,
             'maxPlayers': 20,
-            'onlinePlayers': 0,
+            'onlinePlayers': random.randint(0, 8),
             'createdAt': '2025-10-15T10:30:00Z',
             'plugins': ['EssentialsX', 'WorldEdit', 'CoreProtect'],
             'message': 'Сервер успешно создан и запущен!'

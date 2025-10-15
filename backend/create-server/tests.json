@@ -14,8 +14,8 @@
         "serverName": "Test Server",
         "version": "1.20.1",
         "status": "running",
-        "ip": "string",
-        "port": "number"
+        "ip": "emeraldworld.aternos.me",
+        "port": 25565
       },
       "bodyMatcher": "partial"
     },
