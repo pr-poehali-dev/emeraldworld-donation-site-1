@@ -68,12 +68,35 @@ export default function Dashboard() {
     });
   };
 
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text);
-    toast({
-      title: 'Скопировано!',
-      description: 'IP адрес скопирован в буфер обмена',
-    });
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast({
+        title: 'Скопировано!',
+        description: 'IP адрес скопирован в буфер обмена',
+      });
+    } catch (err) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        toast({
+          title: 'Скопировано!',
+          description: 'IP адрес скопирован в буфер обмена',
+        });
+      } catch (execErr) {
+        toast({
+          title: 'Ошибка',
+          description: 'Не удалось скопировать. Попробуйте вручную.',
+          variant: 'destructive'
+        });
+      }
+      document.body.removeChild(textArea);
+    }
   };
 
   if (isLoading) {
