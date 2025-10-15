@@ -92,6 +92,14 @@ const faqItems = [
   }
 ];
 
+const recentPurchases = [
+  { username: 'Steve_Pro', tier: 'Король', time: '2 минуты назад' },
+  { username: 'Alex_228', tier: 'Демон', time: '5 минут назад' },
+  { username: 'Herobrine', tier: 'Изумруд', time: '12 минут назад' },
+  { username: 'Notch_Fan', tier: 'Дьявол', time: '18 минут назад' },
+  { username: 'CreeperKing', tier: 'Король', time: '25 минут назад' }
+];
+
 export default function Index() {
   const [selectedDonation, setSelectedDonation] = useState<DonationTier | null>(null);
   const [username, setUsername] = useState('');
@@ -252,6 +260,31 @@ export default function Index() {
           <div className="mt-8 inline-flex items-center gap-2 px-4 py-2 bg-emerald-950/50 border border-emerald-700 rounded">
             <Icon name="Server" className="text-emerald-400" size={18} />
             <span className="text-emerald-400 font-semibold text-sm">IP: emeraldworld.aternos.me</span>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-8 bg-black border-y border-emerald-900/30">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <Icon name="TrendingUp" className="text-emerald-400" size={20} />
+            <h3 className="minecraft-text text-xl text-emerald-400">ПОСЛЕДНИЕ ПОКУПКИ</h3>
+          </div>
+          <div className="max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
+              {recentPurchases.map((purchase, idx) => (
+                <div key={idx} className="bg-gradient-to-r from-emerald-950/30 to-black border border-emerald-800/50 rounded-lg p-3 hover:border-emerald-600/50 transition-all">
+                  <div className="flex items-start gap-2">
+                    <Icon name="User" className="text-emerald-500 flex-shrink-0 mt-0.5" size={14} />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-emerald-300 font-semibold text-xs truncate">{purchase.username}</p>
+                      <p className="text-emerald-400 text-xs font-bold">{purchase.tier}</p>
+                      <p className="text-gray-500 text-xs mt-1">{purchase.time}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
