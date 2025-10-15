@@ -227,17 +227,17 @@ export default function Index() {
         }}></div>
         
         <div className="relative z-10 text-center px-4">
-          <h1 className="minecraft-text text-5xl md:text-6xl font-black mb-4 animate-fade-in">
+          <h1 className="minecraft-text text-4xl md:text-5xl font-black mb-4 animate-fade-in">
             <span className="text-black bg-clip-text" style={{
-              WebkitTextStroke: '3px #059669',
+              WebkitTextStroke: '2px #059669',
               paintOrder: 'stroke fill'
             }}>EMERALD</span>
             <span className="text-black bg-clip-text" style={{
-              WebkitTextStroke: '3px #059669',
+              WebkitTextStroke: '2px #059669',
               paintOrder: 'stroke fill'
             }}>WORLD</span>
           </h1>
-          <p className="text-lg md:text-xl text-emerald-400 mb-6 animate-fade-in font-semibold">
+          <p className="text-base md:text-lg text-emerald-400 mb-6 animate-fade-in font-semibold">
             Лучший Minecraft сервер с уникальными возможностями
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center animate-fade-in">
