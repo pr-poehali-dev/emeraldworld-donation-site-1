@@ -234,14 +234,23 @@ export default function Index() {
       const data = await response.json();
       
       if (response.ok) {
+        const savedServers = localStorage.getItem('myServers');
+        const servers = savedServers ? JSON.parse(savedServers) : [];
+        servers.push(data);
+        localStorage.setItem('myServers', JSON.stringify(servers));
+
         toast({
           title: 'Сервер создан!',
           description: `IP: ${data.ip}:${data.port} | Версия: ${data.version}`,
-          duration: 10000
+          duration: 5000
         });
         
         setIsHostingDialogOpen(false);
         setServerName('');
+        
+        setTimeout(() => {
+          window.location.href = '/dashboard';
+        }, 1000);
       } else {
         throw new Error(data.error || 'Ошибка создания сервера');
       }
@@ -274,9 +283,15 @@ export default function Index() {
                 <button onClick={() => scrollToSection('contacts')} className="hover:text-emerald-400 transition-colors">Контакты</button>
               </div>
             </div>
-            <Button onClick={() => scrollToSection('donations')} className="bg-emerald-600 hover:bg-emerald-700">
-              Купить донат
-            </Button>
+            <div className="flex items-center gap-3">
+              <Button onClick={() => window.location.href = '/dashboard'} variant="outline" className="border-emerald-600 text-emerald-400 hover:bg-emerald-950">
+                <Icon name="LayoutDashboard" className="mr-2" size={16} />
+                Мои серверы
+              </Button>
+              <Button onClick={() => scrollToSection('donations')} className="bg-emerald-600 hover:bg-emerald-700">
+                Купить донат
+              </Button>
+            </div>
           </div>
         </div>
       </nav>
