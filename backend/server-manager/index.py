@@ -38,11 +38,12 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             body_data = json.loads(event.get('body', '{}'))
             server_name = body_data.get('serverName', 'My Server')
             server_version = body_data.get('serverVersion', '1.20.1')
+            server_ip = body_data.get('serverIp', 'localhost')
             user_id = event.get('headers', {}).get('x-user-id', 'anonymous')
             
             server_id = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
             server_port = random.randint(25565, 30000)
-            subdomain = f'{server_id}'
+            subdomain = server_ip if server_ip else 'localhost'
             
             cur.execute('''
                 INSERT INTO minecraft_servers 
@@ -57,7 +58,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 'serverName': server_name,
                 'version': server_version,
                 'status': 'running',
-                'ip': 'play.emeraldworld.host',
+                'ip': server_ip if server_ip else 'localhost',
                 'port': server_port,
                 'maxPlayers': 20,
                 'onlinePlayers': 0,
@@ -95,7 +96,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                     'serverName': row[1],
                     'version': row[2],
                     'status': row[3],
-                    'ip': 'play.emeraldworld.host',
+                    'ip': row[4] if row[4] else 'localhost',
                     'port': row[5],
                     'maxPlayers': row[6],
                     'onlinePlayers': row[7],

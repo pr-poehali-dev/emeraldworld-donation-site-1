@@ -108,6 +108,7 @@ export default function Index() {
   const [isHostingDialogOpen, setIsHostingDialogOpen] = useState(false);
   const [serverName, setServerName] = useState('');
   const [serverVersion, setServerVersion] = useState('1.20.1');
+  const [serverIp, setServerIp] = useState('');
   const [isCreatingServer, setIsCreatingServer] = useState(false);
   const { toast } = useToast();
 
@@ -231,7 +232,8 @@ export default function Index() {
         },
         body: JSON.stringify({
           serverName: serverName,
-          serverVersion: serverVersion
+          serverVersion: serverVersion,
+          serverIp: serverIp || 'localhost'
         })
       });
 
@@ -641,6 +643,17 @@ export default function Index() {
                       <option value="1.16.5">1.16.5</option>
                       <option value="1.12.2">1.12.2</option>
                     </select>
+                  </div>
+                  <div>
+                    <Label htmlFor="server-ip" className="text-emerald-400">IP адрес вашего сервера</Label>
+                    <Input
+                      id="server-ip"
+                      placeholder="Например: 192.168.1.100 или оставьте пустым"
+                      value={serverIp}
+                      onChange={(e) => setServerIp(e.target.value)}
+                      className="bg-black border-emerald-700 text-white mt-2"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">Если у вас есть свой VPS или выделенный сервер - укажите его IP</p>
                   </div>
                   <div className="bg-emerald-950/30 border border-emerald-800 rounded-lg p-4">
                     <h4 className="text-emerald-400 font-semibold mb-2 flex items-center gap-2">
