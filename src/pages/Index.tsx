@@ -603,7 +603,7 @@ export default function Index() {
 
           <Separator className="bg-emerald-700 my-8" />
 
-          <div className="mb-8">
+          <div className="mb-8 flex flex-col gap-4 items-center">
             <Dialog open={isHostingDialogOpen} onOpenChange={setIsHostingDialogOpen}>
               <DialogTrigger asChild>
                 <Button className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 px-8 py-6 text-lg">
@@ -709,6 +709,20 @@ export default function Index() {
                 </Button>
               </DialogContent>
             </Dialog>
+            
+            <Button
+              onClick={() => {
+                const link = document.createElement('a');
+                link.href = 'https://www.spigotmc.org/resources/categories/spigot.4/';
+                link.target = '_blank';
+                link.click();
+              }}
+              variant="outline"
+              className="border-emerald-600 text-emerald-400 hover:bg-emerald-950 px-6"
+            >
+              <Icon name="Download" className="mr-2" size={18} />
+              Скачать плагины
+            </Button>
           </div>
 
           <p className="text-gray-400 text-sm">
