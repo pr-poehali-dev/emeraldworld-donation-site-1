@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
 
@@ -21,6 +24,8 @@ interface Server {
 export default function Dashboard() {
   const [servers, setServers] = useState<Server[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [editingServer, setEditingServer] = useState<Server | null>(null);
+  const [newIp, setNewIp] = useState('');
   const { toast } = useToast();
 
   useEffect(() => {
@@ -114,6 +119,46 @@ export default function Dashboard() {
       toast({
         title: 'Ошибка',
         description: 'Не удалось удалить сервер',
+        variant: 'destructive'
+      });
+    }
+  };
+
+  const handleUpdateIp = async () => {
+    if (!editingServer || !newIp) return;
+
+    try {
+      const response = await fetch('https://functions.poehali.dev/97ba201c-8175-49fe-9619-40c98f6f1764', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          serverId: editingServer.serverId,
+          newIp: newIp
+        })
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setServers(prev => prev.map(server => 
+          server.serverId === editingServer.serverId
+            ? { ...server, ip: newIp }
+            : server
+        ));
+        
+        toast({
+          title: 'IP обновлён!',
+          description: `Новый адрес: ${newIp}:${editingServer.port}`,
+        });
+        
+        setEditingServer(null);
+        setNewIp('');
+      }
+    } catch (error) {
+      toast({
+        title: 'Ошибка',
+        description: 'Не удалось обновить IP',
         variant: 'destructive'
       });
     }
@@ -224,15 +269,29 @@ export default function Dashboard() {
                   <div className="bg-black/50 rounded-lg p-4 border border-emerald-800">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-gray-400 text-sm">IP адрес:</span>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => copyToClipboard(`${server.ip}:${server.port}`)}
-                        className="text-emerald-400 hover:text-emerald-300"
-                      >
-                        <Icon name="Copy" size={14} className="mr-1" />
-                        Копировать
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => {
+                            setEditingServer(server);
+                            setNewIp(server.ip);
+                          }}
+                          className="text-blue-400 hover:text-blue-300"
+                        >
+                          <Icon name="Edit" size={14} className="mr-1" />
+                          Изменить
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => copyToClipboard(`${server.ip}:${server.port}`)}
+                          className="text-emerald-400 hover:text-emerald-300"
+                        >
+                          <Icon name="Copy" size={14} className="mr-1" />
+                          Копировать
+                        </Button>
+                      </div>
                     </div>
                     <p className="font-mono text-emerald-300 text-lg">{server.ip}:{server.port}</p>
                   </div>
@@ -312,6 +371,63 @@ export default function Dashboard() {
           </div>
         )}
       </div>
+
+      <Dialog open={!!editingServer} onOpenChange={() => {
+        setEditingServer(null);
+        setNewIp('');
+      }}>
+        <DialogContent className="bg-gradient-to-br from-emerald-950 to-black border-emerald-700 text-white">
+          <DialogHeader>
+            <DialogTitle className="text-emerald-400">Изменить IP адрес</DialogTitle>
+            <DialogDescription className="text-gray-400">
+              Введите новый IP адрес для сервера {editingServer?.serverName}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="ip" className="text-emerald-300">Новый IP адрес</Label>
+              <Input
+                id="ip"
+                placeholder="Например: 192.168.1.1"
+                value={newIp}
+                onChange={(e) => setNewIp(e.target.value)}
+                className="bg-black border-emerald-700 text-white placeholder:text-gray-500"
+              />
+              <p className="text-xs text-gray-500">
+                Порт останется прежним: {editingServer?.port}
+              </p>
+            </div>
+            <div className="bg-emerald-950/30 border border-emerald-800 rounded-lg p-3">
+              <p className="text-xs text-gray-400 mb-1">Текущий адрес:</p>
+              <p className="font-mono text-emerald-300">{editingServer?.ip}:{editingServer?.port}</p>
+            </div>
+            <div className="bg-blue-950/30 border border-blue-800 rounded-lg p-3">
+              <p className="text-xs text-gray-400 mb-1">Новый адрес будет:</p>
+              <p className="font-mono text-blue-300">{newIp || '___'}:{editingServer?.port}</p>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setEditingServer(null);
+                setNewIp('');
+              }}
+              className="border-gray-600 text-gray-400"
+            >
+              Отмена
+            </Button>
+            <Button
+              onClick={handleUpdateIp}
+              disabled={!newIp || newIp === editingServer?.ip}
+              className="bg-emerald-600 hover:bg-emerald-700"
+            >
+              <Icon name="Save" size={16} className="mr-2" />
+              Сохранить
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

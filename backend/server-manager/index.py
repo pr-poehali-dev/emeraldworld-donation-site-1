@@ -12,7 +12,7 @@ def get_db_connection():
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     '''
-    Business: Manages Minecraft servers - create, start, stop, delete operations
+    Business: Manages Minecraft servers - create, start, stop, delete, update IP operations
     Args: event with httpMethod, body containing action and server details
     Returns: Server status and connection information
     '''
@@ -23,7 +23,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             'statusCode': 200,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
                 'Access-Control-Allow-Headers': 'Content-Type, X-User-Id',
                 'Access-Control-Max-Age': '86400'
             },
@@ -143,6 +143,42 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 },
                 'isBase64Encoded': False,
                 'body': json.dumps({'status': 'success', 'newStatus': new_status})
+            }
+        
+        elif method == 'PATCH':
+            body_data = json.loads(event.get('body', '{}'))
+            server_id = body_data.get('serverId')
+            new_ip = body_data.get('newIp')
+            
+            if not server_id or not new_ip:
+                return {
+                    'statusCode': 400,
+                    'headers': {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    },
+                    'isBase64Encoded': False,
+                    'body': json.dumps({'error': 'serverId и newIp обязательны'})
+                }
+            
+            subdomain = new_ip.replace('.', '-').replace(':', '-')
+            
+            cur.execute('''
+                UPDATE minecraft_servers 
+                SET subdomain = %s 
+                WHERE server_id = %s
+            ''', (subdomain, server_id))
+            
+            conn.commit()
+            
+            return {
+                'statusCode': 200,
+                'headers': {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                'isBase64Encoded': False,
+                'body': json.dumps({'status': 'updated', 'newIp': new_ip})
             }
         
         elif method == 'DELETE':
