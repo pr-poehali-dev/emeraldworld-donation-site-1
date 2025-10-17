@@ -646,14 +646,34 @@ export default function Index() {
                   </div>
                   <div>
                     <Label htmlFor="server-ip" className="text-emerald-400">IP адрес вашего сервера</Label>
-                    <Input
-                      id="server-ip"
-                      placeholder="Например: 192.168.1.100 или оставьте пустым"
-                      value={serverIp}
-                      onChange={(e) => setServerIp(e.target.value)}
-                      className="bg-black border-emerald-700 text-white mt-2"
-                    />
-                    <p className="text-xs text-gray-500 mt-1">Если у вас есть свой VPS или выделенный сервер - укажите его IP</p>
+                    <div className="flex gap-2 mt-2">
+                      <Input
+                        id="server-ip"
+                        placeholder="Например: 192.168.1.100"
+                        value={serverIp}
+                        onChange={(e) => setServerIp(e.target.value)}
+                        className="bg-black border-emerald-700 text-white flex-1"
+                      />
+                      <Button
+                        type="button"
+                        onClick={async () => {
+                          try {
+                            const response = await fetch('https://api.ipify.org?format=json');
+                            const data = await response.json();
+                            setServerIp(data.ip);
+                          } catch (error) {
+                            setServerIp('localhost');
+                          }
+                        }}
+                        variant="outline"
+                        className="border-emerald-700 text-emerald-400"
+                      >
+                        Мой IP
+                      </Button>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1">
+                      Укажите IP вашего компьютера/VPS или нажмите "Мой IP" для автоопределения
+                    </p>
                   </div>
                   <div className="bg-emerald-950/30 border border-emerald-800 rounded-lg p-4">
                     <h4 className="text-emerald-400 font-semibold mb-2 flex items-center gap-2">

@@ -314,6 +314,35 @@ Linux/Mac:
     });
   };
 
+  const handleClearAllServers = async () => {
+    if (!window.confirm('Удалить все серверы? Это действие нельзя отменить!')) {
+      return;
+    }
+
+    try {
+      const userId = localStorage.getItem('userId');
+      if (!userId) return;
+
+      for (const server of servers) {
+        await fetch(`https://functions.poehali.dev/97ba201c-8175-49fe-9619-40c98f6f1764?serverId=${server.serverId}`, {
+          method: 'DELETE'
+        });
+      }
+
+      setServers([]);
+      toast({
+        title: 'Все серверы удалены',
+        description: 'Теперь можете создать новые с правильными настройками',
+      });
+    } catch (error) {
+      toast({
+        title: 'Ошибка',
+        description: 'Не удалось удалить серверы',
+        variant: 'destructive'
+      });
+    }
+  };
+
   const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -378,9 +407,21 @@ Linux/Mac:
       </nav>
 
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="minecraft-text text-4xl text-emerald-400 mb-2">МОИ СЕРВЕРА</h1>
-          <p className="text-gray-400">Управляйте своими Minecraft серверами</p>
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="minecraft-text text-4xl text-emerald-400 mb-2">МОИ СЕРВЕРА</h1>
+            <p className="text-gray-400">Управляйте своими Minecraft серверами</p>
+          </div>
+          {servers.length > 0 && (
+            <Button
+              onClick={handleClearAllServers}
+              variant="outline"
+              className="border-red-600 text-red-400 hover:bg-red-950"
+            >
+              <Icon name="Trash2" size={16} className="mr-2" />
+              Удалить все серверы
+            </Button>
+          )}
         </div>
 
         {servers.length === 0 ? (
