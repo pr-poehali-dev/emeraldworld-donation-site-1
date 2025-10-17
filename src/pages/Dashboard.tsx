@@ -21,11 +21,26 @@ interface Server {
   plugins: string[];
 }
 
+const availablePlugins = [
+  { name: 'EssentialsX', description: 'Основные команды и функции' },
+  { name: 'WorldEdit', description: 'Редактирование мира' },
+  { name: 'CoreProtect', description: 'Защита от гриферов' },
+  { name: 'Vault', description: 'Экономика сервера' },
+  { name: 'LuckPerms', description: 'Управление правами' },
+  { name: 'WorldGuard', description: 'Защита регионов' },
+  { name: 'Citizens', description: 'NPC персонажи' },
+  { name: 'mcMMO', description: 'RPG навыки' },
+  { name: 'Multiverse', description: 'Множество миров' },
+  { name: 'ChestShop', description: 'Магазины игроков' }
+];
+
 export default function Dashboard() {
   const [servers, setServers] = useState<Server[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [editingServer, setEditingServer] = useState<Server | null>(null);
   const [newIp, setNewIp] = useState('');
+  const [pluginsServer, setPluginsServer] = useState<Server | null>(null);
+  const [selectedPlugins, setSelectedPlugins] = useState<string[]>([]);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -162,6 +177,37 @@ export default function Dashboard() {
         variant: 'destructive'
       });
     }
+  };
+
+  const handleOpenPluginsMenu = (server: Server) => {
+    setPluginsServer(server);
+    setSelectedPlugins(server.plugins);
+  };
+
+  const handleTogglePlugin = (pluginName: string) => {
+    setSelectedPlugins(prev => 
+      prev.includes(pluginName)
+        ? prev.filter(p => p !== pluginName)
+        : [...prev, pluginName]
+    );
+  };
+
+  const handleSavePlugins = async () => {
+    if (!pluginsServer) return;
+
+    setServers(prev => prev.map(server => 
+      server.serverId === pluginsServer.serverId
+        ? { ...server, plugins: selectedPlugins }
+        : server
+    ));
+    
+    toast({
+      title: 'Плагины обновлены!',
+      description: `Установлено плагинов: ${selectedPlugins.length}`,
+    });
+    
+    setPluginsServer(null);
+    setSelectedPlugins([]);
   };
 
   const copyToClipboard = async (text: string) => {
@@ -356,13 +402,28 @@ export default function Dashboard() {
                   </div>
 
                   <div>
-                    <p className="text-xs text-gray-500 mb-2">Установленные плагины:</p>
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-xs text-gray-500">Установленные плагины:</p>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => handleOpenPluginsMenu(server)}
+                        className="text-emerald-400 hover:text-emerald-300 h-6"
+                      >
+                        <Icon name="Settings" size={14} className="mr-1" />
+                        Управление
+                      </Button>
+                    </div>
                     <div className="flex flex-wrap gap-1">
-                      {server.plugins.map((plugin, idx) => (
-                        <Badge key={idx} variant="secondary" className="bg-emerald-950/50 text-emerald-400 border-emerald-800 text-xs">
-                          {plugin}
-                        </Badge>
-                      ))}
+                      {server.plugins.length > 0 ? (
+                        server.plugins.map((plugin, idx) => (
+                          <Badge key={idx} variant="secondary" className="bg-emerald-950/50 text-emerald-400 border-emerald-800 text-xs">
+                            {plugin}
+                          </Badge>
+                        ))
+                      ) : (
+                        <p className="text-xs text-gray-600">Плагины не установлены</p>
+                      )}
                     </div>
                   </div>
                 </CardContent>
@@ -424,6 +485,83 @@ export default function Dashboard() {
             >
               <Icon name="Save" size={16} className="mr-2" />
               Сохранить
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={!!pluginsServer} onOpenChange={() => {
+        setPluginsServer(null);
+        setSelectedPlugins([]);
+      }}>
+        <DialogContent className="bg-gradient-to-br from-emerald-950 to-black border-emerald-700 text-white max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-emerald-400 flex items-center gap-2">
+              <Icon name="Package" size={24} />
+              Управление плагинами
+            </DialogTitle>
+            <DialogDescription className="text-gray-400">
+              {pluginsServer?.serverName} - Выберите плагины для установки
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="bg-emerald-950/30 border border-emerald-800 rounded-lg p-3">
+              <p className="text-xs text-gray-400">Выбрано плагинов: <span className="text-emerald-400 font-bold">{selectedPlugins.length}</span></p>
+            </div>
+            
+            <div className="grid grid-cols-1 gap-2">
+              {availablePlugins.map((plugin) => {
+                const isSelected = selectedPlugins.includes(plugin.name);
+                return (
+                  <div
+                    key={plugin.name}
+                    onClick={() => handleTogglePlugin(plugin.name)}
+                    className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                      isSelected
+                        ? 'bg-emerald-950/50 border-emerald-600'
+                        : 'bg-black/50 border-emerald-900 hover:border-emerald-700'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2">
+                          <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
+                            isSelected ? 'bg-emerald-600 border-emerald-600' : 'border-gray-600'
+                          }`}>
+                            {isSelected && <Icon name="Check" size={14} className="text-white" />}
+                          </div>
+                          <h4 className="text-emerald-300 font-semibold">{plugin.name}</h4>
+                        </div>
+                        <p className="text-sm text-gray-400 mt-1 ml-7">{plugin.description}</p>
+                      </div>
+                      {isSelected && (
+                        <Badge className="bg-emerald-600 text-white ml-2">
+                          Установлен
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setPluginsServer(null);
+                setSelectedPlugins([]);
+              }}
+              className="border-gray-600 text-gray-400"
+            >
+              Отмена
+            </Button>
+            <Button
+              onClick={handleSavePlugins}
+              className="bg-emerald-600 hover:bg-emerald-700"
+            >
+              <Icon name="Download" size={16} className="mr-2" />
+              Установить плагины ({selectedPlugins.length})
             </Button>
           </DialogFooter>
         </DialogContent>
