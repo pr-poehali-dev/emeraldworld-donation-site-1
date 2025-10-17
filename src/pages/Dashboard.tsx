@@ -210,6 +210,32 @@ export default function Dashboard() {
     setSelectedPlugins([]);
   };
 
+  const handlePlayServer = async (server: Server) => {
+    if (server.status !== 'running') {
+      toast({
+        title: 'Запуск сервера...',
+        description: 'Пожалуйста, подождите',
+      });
+      await handleServerAction(server.serverId, 'start');
+      
+      setTimeout(() => {
+        copyToClipboard(`${server.ip}:${server.port}`);
+        toast({
+          title: 'Сервер запущен!',
+          description: 'IP скопирован. Открой Minecraft и подключись!',
+          duration: 10000
+        });
+      }, 2000);
+    } else {
+      copyToClipboard(`${server.ip}:${server.port}`);
+      toast({
+        title: 'Готово к игре!',
+        description: 'IP скопирован. Открой Minecraft и подключись!',
+        duration: 10000
+      });
+    }
+  };
+
   const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -312,6 +338,29 @@ export default function Dashboard() {
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                  <Button
+                    onClick={() => handlePlayServer(server)}
+                    disabled={server.status === 'starting'}
+                    className="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-bold py-6 text-lg"
+                  >
+                    {server.status === 'starting' ? (
+                      <>
+                        <Icon name="Loader2" className="animate-spin mr-2" size={20} />
+                        Запуск...
+                      </>
+                    ) : server.status === 'running' ? (
+                      <>
+                        <Icon name="Gamepad2" className="mr-2" size={20} />
+                        🎮 ИГРАТЬ СЕЙЧАС
+                      </>
+                    ) : (
+                      <>
+                        <Icon name="Play" className="mr-2" size={20} />
+                        ЗАПУСТИТЬ И ИГРАТЬ
+                      </>
+                    )}
+                  </Button>
+
                   <div className="bg-black/50 rounded-lg p-4 border border-emerald-800">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-gray-400 text-sm">IP адрес:</span>
@@ -341,6 +390,23 @@ export default function Dashboard() {
                     </div>
                     <p className="font-mono text-emerald-300 text-lg">{server.ip}:{server.port}</p>
                   </div>
+
+                  {server.status === 'running' && (
+                    <div className="bg-green-950/30 border border-green-700 rounded-lg p-3">
+                      <div className="flex items-start gap-2">
+                        <Icon name="Info" size={16} className="text-green-400 mt-0.5" />
+                        <div>
+                          <p className="text-green-400 text-sm font-semibold mb-1">Как подключиться:</p>
+                          <ol className="text-xs text-gray-300 space-y-1">
+                            <li>1. Нажми кнопку "ИГРАТЬ СЕЙЧАС" (IP скопируется)</li>
+                            <li>2. Открой Minecraft {server.version}</li>
+                            <li>3. Сетевая игра → Прямое подключение</li>
+                            <li>4. Вставь IP и нажми "Подключиться"</li>
+                          </ol>
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-emerald-950/30 rounded-lg p-3 border border-emerald-800/50">
