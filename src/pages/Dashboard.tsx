@@ -236,6 +236,84 @@ export default function Dashboard() {
     }
   };
 
+  const handleDownloadServer = (server: Server) => {
+    const serverProperties = `#Minecraft server properties
+server-port=${server.port}
+max-players=${server.maxPlayers}
+motd=${server.serverName}
+gamemode=survival
+difficulty=normal
+pvp=true
+online-mode=true
+white-list=false
+spawn-protection=16
+level-name=world
+view-distance=10
+enable-command-block=false
+`;
+
+    const eulaTxt = `#By changing the setting below to TRUE you are indicating your agreement to our EULA (https://aka.ms/MinecraftEULA).
+eula=true
+`;
+
+    const startBat = `@echo off
+title ${server.serverName}
+java -Xmx2048M -Xms1024M -jar server.jar nogui
+pause
+`;
+
+    const startSh = `#!/bin/bash
+java -Xmx2048M -Xms1024M -jar server.jar nogui
+`;
+
+    const readmeTxt = `=== ${server.serverName} ===
+
+Инструкция по запуску:
+
+1. Скачайте server.jar для версии ${server.version} с официального сайта Minecraft
+2. Поместите server.jar в эту папку
+
+Windows:
+- Убедитесь что установлена Java 17+
+- Запустите start.bat
+
+Linux/Mac:
+- Сделайте start.sh исполняемым: chmod +x start.sh
+- Запустите: ./start.sh
+
+После первого запуска:
+- Сервер создаст мир
+- IP для подключения: ${server.ip}:${server.port}
+- Чтобы друзья могли подключиться, откройте порт ${server.port}
+
+Настройки сервера в файле server.properties
+Плагины установите в папку plugins/
+`;
+
+    const zip = `PK\x03\x04server.properties${serverProperties}eula.txt${eulaTxt}start.bat${startBat}start.sh${startSh}README.txt${readmeTxt}`;
+    
+    const blob = new Blob([
+      `server.properties:\n${serverProperties}\n\n`,
+      `eula.txt:\n${eulaTxt}\n\n`,
+      `start.bat:\n${startBat}\n\n`,
+      `start.sh:\n${startSh}\n\n`,
+      `README.txt:\n${readmeTxt}`
+    ], { type: 'text/plain' });
+    
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${server.serverName.replace(/\s+/g, '_')}_config.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+    
+    toast({
+      title: 'Конфиги скачаны!',
+      description: 'Следуйте инструкциям в README.txt',
+      duration: 5000
+    });
+  };
+
   const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -385,6 +463,15 @@ export default function Dashboard() {
                         >
                           <Icon name="Copy" size={14} className="mr-1" />
                           Копировать
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => handleDownloadServer(server)}
+                          className="text-purple-400 hover:text-purple-300"
+                        >
+                          <Icon name="Download" size={14} className="mr-1" />
+                          Скачать
                         </Button>
                       </div>
                     </div>
