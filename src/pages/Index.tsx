@@ -224,7 +224,7 @@ export default function Index() {
       const userId = localStorage.getItem('userId') || `user_${Date.now()}`;
       localStorage.setItem('userId', userId);
 
-      const response = await fetch('https://functions.poehali.dev/97ba201c-8175-49fe-9619-40c98f6f1764', {
+      const response = await fetch('https://functions.poehali.dev/d87fe1d9-863c-4e8d-aad0-24c39fe29d1e', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -241,13 +241,14 @@ export default function Index() {
       
       if (response.ok) {
         toast({
-          title: 'Сервер создан!',
-          description: `${data.message} IP: ${data.ip}:${data.port}`,
-          duration: 5000
+          title: '🎉 Сервер создан!',
+          description: 'Перенаправляем в панель управления...',
+          duration: 3000
         });
         
         setIsHostingDialogOpen(false);
         setServerName('');
+        setServerIp('');
         
         setTimeout(() => {
           window.location.href = '/dashboard';
@@ -683,19 +684,19 @@ export default function Index() {
                     <ul className="space-y-1 text-sm text-gray-300">
                       <li className="flex items-center gap-2">
                         <Icon name="Check" size={14} className="text-emerald-400" />
-                        Бесплатный хостинг 24/7
+                        Готовый сервер с плагинами PaperMC
                       </li>
                       <li className="flex items-center gap-2">
                         <Icon name="Check" size={14} className="text-emerald-400" />
-                        До 20 игроков одновременно
+                        До 20 игроков через Radmin VPN
                       </li>
                       <li className="flex items-center gap-2">
                         <Icon name="Check" size={14} className="text-emerald-400" />
-                        Автоматическая установка плагинов
+                        Файлы запуска для Windows/Linux/Mac
                       </li>
                       <li className="flex items-center gap-2">
                         <Icon name="Check" size={14} className="text-emerald-400" />
-                        Защита от DDoS атак
+                        Подробная инструкция по настройке
                       </li>
                     </ul>
                   </div>

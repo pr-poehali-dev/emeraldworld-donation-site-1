@@ -49,22 +49,31 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 INSERT INTO minecraft_servers 
                 (server_id, user_id, server_name, version, status, subdomain, port, max_players, online_players, created_at)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-            ''', (server_id, user_id, server_name, server_version, 'starting', subdomain, server_port, 20, 0, datetime.now()))
+            ''', (server_id, user_id, server_name, server_version, 'created', subdomain, server_port, 20, 0, datetime.now()))
             
             conn.commit()
+            
+            version_downloads = {
+                '1.20.1': 'https://api.papermc.io/v2/projects/paper/versions/1.20.1/builds/196/downloads/paper-1.20.1-196.jar',
+                '1.19.4': 'https://api.papermc.io/v2/projects/paper/versions/1.19.4/builds/550/downloads/paper-1.19.4-550.jar',
+                '1.18.2': 'https://api.papermc.io/v2/projects/paper/versions/1.18.2/builds/388/downloads/paper-1.18.2-388.jar',
+                '1.16.5': 'https://api.papermc.io/v2/projects/paper/versions/1.16.5/builds/794/downloads/paper-1.16.5-794.jar',
+                '1.12.2': 'https://api.papermc.io/v2/projects/paper/versions/1.12.2/builds/1620/downloads/paper-1.12.2-1620.jar'
+            }
             
             server_details = {
                 'serverId': server_id,
                 'serverName': server_name,
                 'version': server_version,
-                'status': 'running',
+                'status': 'created',
                 'ip': server_ip if server_ip else 'localhost',
                 'port': server_port,
                 'maxPlayers': 20,
                 'onlinePlayers': 0,
                 'createdAt': datetime.now().isoformat(),
-                'plugins': ['EssentialsX', 'WorldEdit', 'CoreProtect'],
-                'message': 'Сервер создан! Запуск займёт 1-2 минуты.'
+                'plugins': ['EssentialsX', 'WorldEdit', 'CoreProtect', 'Vault', 'LuckPerms'],
+                'downloadUrl': version_downloads.get(server_version, version_downloads['1.20.1']),
+                'message': 'Конфигурация сервера создана! Скачайте файлы для запуска.'
             }
             
             return {
@@ -101,7 +110,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                     'maxPlayers': row[6],
                     'onlinePlayers': row[7],
                     'createdAt': row[8].isoformat() if row[8] else None,
-                    'plugins': ['EssentialsX', 'WorldEdit', 'CoreProtect']
+                    'plugins': ['EssentialsX', 'WorldEdit', 'CoreProtect', 'Vault', 'LuckPerms']
                 })
             
             return {

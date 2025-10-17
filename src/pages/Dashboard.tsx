@@ -12,7 +12,7 @@ interface Server {
   serverId: string;
   serverName: string;
   version: string;
-  status: 'running' | 'stopped' | 'starting';
+  status: 'running' | 'stopped' | 'starting' | 'created';
   ip: string;
   port: number;
   maxPlayers: number;
@@ -237,6 +237,8 @@ export default function Dashboard() {
   };
 
   const handleDownloadServer = (server: Server) => {
+    const pluginsList = server.plugins.map(p => `- ${p}: https://www.spigotmc.org/resources/`).join('\n');
+    
     const serverProperties = `#Minecraft server properties
 server-port=${server.port}
 max-players=${server.maxPlayers}
@@ -244,12 +246,12 @@ motd=${server.serverName}
 gamemode=survival
 difficulty=normal
 pvp=true
-online-mode=true
+online-mode=false
 white-list=false
 spawn-protection=16
 level-name=world
 view-distance=10
-enable-command-block=false
+enable-command-block=true
 `;
 
     const eulaTxt = `#By changing the setting below to TRUE you are indicating your agreement to our EULA (https://aka.ms/MinecraftEULA).
@@ -258,59 +260,153 @@ eula=true
 
     const startBat = `@echo off
 title ${server.serverName}
+echo ========================================
+echo    Запуск сервера ${server.serverName}
+echo ========================================
+echo.
 java -Xmx2048M -Xms1024M -jar server.jar nogui
 pause
 `;
 
     const startSh = `#!/bin/bash
+echo "========================================"
+echo "   Запуск сервера ${server.serverName}"
+echo "========================================"
+echo ""
 java -Xmx2048M -Xms1024M -jar server.jar nogui
 `;
 
-    const readmeTxt = `=== ${server.serverName} ===
+    const readmeTxt = `╔═══════════════════════════════════════════════════════════════╗
+║          ${server.serverName} - ИНСТРУКЦИЯ ПО ЗАПУСКУ          ║
+╚═══════════════════════════════════════════════════════════════╝
 
-Инструкция по запуску:
+📦 ШАГ 1: СКАЧАЙТЕ ФАЙЛЫ СЕРВЕРА
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-1. Скачайте server.jar для версии ${server.version} с официального сайта Minecraft
-2. Поместите server.jar в эту папку
+1. Скачайте PaperMC (улучшенный сервер с поддержкой плагинов):
+   Версия ${server.version}
+   
+   🔗 Ссылки для скачивания:
+   
+   Paper 1.20.1: https://api.papermc.io/v2/projects/paper/versions/1.20.1/builds/196/downloads/paper-1.20.1-196.jar
+   Paper 1.19.4: https://api.papermc.io/v2/projects/paper/versions/1.19.4/builds/550/downloads/paper-1.19.4-550.jar
+   Paper 1.18.2: https://api.papermc.io/v2/projects/paper/versions/1.18.2/builds/388/downloads/paper-1.18.2-388.jar
+   Paper 1.16.5: https://api.papermc.io/v2/projects/paper/versions/1.16.5/builds/794/downloads/paper-1.16.5-794.jar
+   Paper 1.12.2: https://api.papermc.io/v2/projects/paper/versions/1.12.2/builds/1620/downloads/paper-1.12.2-1620.jar
+
+2. Переименуйте скачанный файл в "server.jar"
+3. Поместите в папку с этими файлами
+
+
+🎮 ШАГ 2: УСТАНОВИТЕ JAVA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Скачайте Java 17 или новее:
+🔗 https://www.oracle.com/java/technologies/downloads/
+
+
+🔌 ШАГ 3: СКАЧАЙТЕ ПЛАГИНЫ (необязательно)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Создайте папку "plugins" и скачайте туда плагины:
+
+${pluginsList}
+
+🔗 Все плагины: https://www.spigotmc.org/resources/
+
+
+🚀 ШАГ 4: ЗАПУСТИТЕ СЕРВЕР
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Windows:
-- Убедитесь что установлена Java 17+
-- Запустите start.bat
+  Двойной клик на start.bat
 
 Linux/Mac:
-- Сделайте start.sh исполняемым: chmod +x start.sh
-- Запустите: ./start.sh
+  chmod +x start.sh
+  ./start.sh
 
-После первого запуска:
-- Сервер создаст мир
-- IP для подключения: ${server.ip}:${server.port}
-- Чтобы друзья могли подключиться, откройте порт ${server.port}
+При первом запуске сервер создаст папки и мир (это займёт 1-2 минуты).
 
-Настройки сервера в файле server.properties
-Плагины установите в папку plugins/
+
+🌐 ШАГ 5: ПОДКЛЮЧЕНИЕ ЧЕРЕЗ RADMIN VPN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Скачайте Radmin VPN (БЕСПЛАТНО):
+   🔗 https://www.radmin-vpn.com/ru/
+
+2. Установите и создайте сеть или присоединитесь к существующей
+
+3. Ваш IP в Radmin VPN будет виден в программе (например: 26.123.45.67)
+
+4. Друзья должны:
+   ✓ Установить Radmin VPN
+   ✓ Присоединиться к вашей сети
+   ✓ В Minecraft подключиться к: ${server.ip}:${server.port}
+
+5. ВАЖНО: В server.properties стоит online-mode=false
+   Это позволяет играть через Radmin VPN без лицензии
+
+
+💡 ПОЛЕЗНАЯ ИНФОРМАЦИЯ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+• IP сервера: ${server.ip}:${server.port}
+• Максимум игроков: ${server.maxPlayers}
+• Версия: ${server.version}
+• Установленные плагины: ${server.plugins.length}
+
+Команды администратора (в консоли сервера):
+  op <ник> - дать права админа
+  whitelist add <ник> - добавить в белый список
+  stop - остановить сервер
+
+Файлы конфигурации:
+  server.properties - основные настройки
+  plugins/ - папка с плагинами
+  world/ - папка с миром
+
+
+❓ ЧАСТЫЕ ВОПРОСЫ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Q: Друзья не могут подключиться?
+A: Убедитесь что все в одной сети Radmin VPN!
+
+Q: Ошибка "Can't keep up"?
+A: Увеличьте RAM в start.bat: -Xmx4096M (вместо 2048M)
+
+Q: Как добавить плагины?
+A: Скачайте .jar файл плагина в папку plugins/ и перезапустите сервер
+
+Q: Сервер не запускается?
+A: Проверьте установлена ли Java 17+ командой: java -version
+
+
+🎯 ГОТОВО! УДАЧНОЙ ИГРЫ!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Поддержка: https://t.me/emeraldworld_support
 `;
 
-    const zip = `PK\x03\x04server.properties${serverProperties}eula.txt${eulaTxt}start.bat${startBat}start.sh${startSh}README.txt${readmeTxt}`;
-    
     const blob = new Blob([
-      `server.properties:\n${serverProperties}\n\n`,
-      `eula.txt:\n${eulaTxt}\n\n`,
-      `start.bat:\n${startBat}\n\n`,
-      `start.sh:\n${startSh}\n\n`,
-      `README.txt:\n${readmeTxt}`
+      `===== server.properties =====\n${serverProperties}\n\n`,
+      `===== eula.txt =====\n${eulaTxt}\n\n`,
+      `===== start.bat (Windows) =====\n${startBat}\n\n`,
+      `===== start.sh (Linux/Mac) =====\n${startSh}\n\n`,
+      `===== README - ИНСТРУКЦИЯ =====\n${readmeTxt}`
     ], { type: 'text/plain' });
     
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${server.serverName.replace(/\s+/g, '_')}_config.txt`;
+    a.download = `${server.serverName.replace(/\s+/g, '_')}_SERVER_FILES.txt`;
     a.click();
     URL.revokeObjectURL(url);
     
     toast({
-      title: 'Конфиги скачаны!',
-      description: 'Следуйте инструкциям в README.txt',
-      duration: 5000
+      title: 'Файлы сервера скачаны! 🎮',
+      description: 'Откройте файл и следуйте пошаговой инструкции',
+      duration: 6000
     });
   };
 
@@ -447,9 +543,17 @@ Linux/Mac:
                       <CardDescription className="flex items-center gap-2">
                         <Badge 
                           variant={server.status === 'running' ? 'default' : 'secondary'}
-                          className={server.status === 'running' ? 'bg-green-600' : server.status === 'starting' ? 'bg-yellow-600' : 'bg-gray-600'}
+                          className={
+                            server.status === 'running' ? 'bg-green-600' : 
+                            server.status === 'starting' ? 'bg-yellow-600' : 
+                            server.status === 'created' ? 'bg-blue-600' :
+                            'bg-gray-600'
+                          }
                         >
-                          {server.status === 'running' ? '🟢 Запущен' : server.status === 'starting' ? '🟡 Запускается' : '🔴 Остановлен'}
+                          {server.status === 'running' ? '🟢 Запущен' : 
+                           server.status === 'starting' ? '🟡 Запускается' : 
+                           server.status === 'created' ? '📦 Создан' :
+                           '🔴 Остановлен'}
                         </Badge>
                         <span className="text-gray-400">v{server.version}</span>
                       </CardDescription>
@@ -457,28 +561,55 @@ Linux/Mac:
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <Button
-                    onClick={() => handlePlayServer(server)}
-                    disabled={server.status === 'starting'}
-                    className="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-bold py-6 text-lg"
-                  >
-                    {server.status === 'starting' ? (
-                      <>
-                        <Icon name="Loader2" className="animate-spin mr-2" size={20} />
-                        Запуск...
-                      </>
-                    ) : server.status === 'running' ? (
-                      <>
-                        <Icon name="Gamepad2" className="mr-2" size={20} />
-                        🎮 ИГРАТЬ СЕЙЧАС
-                      </>
-                    ) : (
-                      <>
-                        <Icon name="Play" className="mr-2" size={20} />
-                        ЗАПУСТИТЬ И ИГРАТЬ
-                      </>
-                    )}
-                  </Button>
+                  {server.status === 'created' ? (
+                    <Button
+                      onClick={() => handleDownloadServer(server)}
+                      className="w-full bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700 text-white font-bold py-6 text-lg"
+                    >
+                      <Icon name="Download" className="mr-2" size={20} />
+                      📥 СКАЧАТЬ ФАЙЛЫ СЕРВЕРА
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={() => handlePlayServer(server)}
+                      disabled={server.status === 'starting'}
+                      className="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-bold py-6 text-lg"
+                    >
+                      {server.status === 'starting' ? (
+                        <>
+                          <Icon name="Loader2" className="animate-spin mr-2" size={20} />
+                          Запуск...
+                        </>
+                      ) : server.status === 'running' ? (
+                        <>
+                          <Icon name="Gamepad2" className="mr-2" size={20} />
+                          🎮 ИГРАТЬ СЕЙЧАС
+                        </>
+                      ) : (
+                        <>
+                          <Icon name="Play" className="mr-2" size={20} />
+                          ЗАПУСТИТЬ И ИГРАТЬ
+                        </>
+                      )}
+                    </Button>
+                  )}
+                  
+                  {server.status === 'created' && (
+                    <div className="bg-blue-950/30 border border-blue-700 rounded-lg p-4">
+                      <div className="flex items-start gap-2">
+                        <Icon name="Info" size={16} className="text-blue-400 mt-0.5" />
+                        <div className="text-sm">
+                          <p className="text-blue-300 font-semibold mb-2">Сервер готов к запуску!</p>
+                          <ol className="text-gray-300 space-y-1 list-decimal list-inside">
+                            <li>Нажмите кнопку "Скачать файлы сервера"</li>
+                            <li>Откройте файл и следуйте инструкции</li>
+                            <li>Установите Radmin VPN для игры с друзьями</li>
+                            <li>Запустите сервер и играйте!</li>
+                          </ol>
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   <div className="bg-black/50 rounded-lg p-4 border border-emerald-800">
                     <div className="flex items-center justify-between mb-2">
