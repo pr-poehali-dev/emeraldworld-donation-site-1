@@ -37,14 +37,14 @@ const donationTiers: DonationTier[] = [
     name: 'Шут',
     price: 45,
     icon: 'Drama',
-    features: ['Весёлые эффекты', 'Уникальные эмоции', 'Доступ к развлечениям']
+    features: ['/fly - полёт', '/kit pvp - боевой набор', '/setwarp 5 - установка точек телепортации']
   },
   {
     id: 'duke',
     name: 'Герцог',
     price: 29,
     icon: 'Castle',
-    features: ['Благородный титул', 'Ускоренный опыт', 'Особый инвентарь']
+    features: ['Все команды кроме бана', 'Доступ к /gm (смена режима игры)', 'Расширенные права администратора']
   },
   {
     id: 'warrior',
@@ -316,7 +316,7 @@ export default function Index() {
             }}>GRAND</span>
           </h1>
           <p className="text-base md:text-lg text-red-400 mb-6 animate-fade-in font-semibold">
-            Лучший Minecraft сервер с уникальными возможностями
+            Самый лучший PvP сервер в Minecraft
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center animate-fade-in">
             <Button onClick={() => scrollToSection('donations')} className="bg-red-600 hover:bg-red-700 px-6">
