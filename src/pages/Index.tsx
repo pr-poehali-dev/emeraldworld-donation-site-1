@@ -58,7 +58,7 @@ const donationTiers: DonationTier[] = [
 const newsItems = [
   {
     date: '10 октября 2025',
-    title: 'Обновление сервера до версии 1.20',
+    title: 'Обновление сервера до версии 1.21.10',
     description: 'Новые биомы, мобы и возможности для исследования!'
   },
   {
