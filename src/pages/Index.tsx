@@ -15,6 +15,8 @@ interface DonationTier {
   price: number;
   icon: string;
   features: string[];
+  oldPrice?: number;
+  discount?: number;
 }
 
 const donationTiers: DonationTier[] = [
@@ -42,7 +44,9 @@ const donationTiers: DonationTier[] = [
   {
     id: 'duke',
     name: 'Герцог',
-    price: 29,
+    price: 90,
+    oldPrice: 100,
+    discount: 10,
     icon: 'Castle',
     features: ['Все функции донатов Шут и Воин', 'Дополнительные привилегии', 'Особый статус на сервере']
   },
@@ -374,7 +378,15 @@ export default function Index() {
                     <Icon name={tier.icon as any} size={24} className="text-white" />
                   </div>
                   <CardTitle className="minecraft-text text-xl text-red-400">{tier.name}</CardTitle>
-                  <CardDescription className="text-2xl font-bold text-white mt-2">{tier.price}₽</CardDescription>
+                  <CardDescription className="text-2xl font-bold text-white mt-2">
+                    {tier.oldPrice && (
+                      <span className="text-sm text-gray-500 line-through mr-2">{tier.oldPrice}₽</span>
+                    )}
+                    {tier.price}₽
+                    {tier.discount && (
+                      <span className="ml-2 text-xs bg-red-600 text-white px-2 py-1 rounded">-{tier.discount}%</span>
+                    )}
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-2">
