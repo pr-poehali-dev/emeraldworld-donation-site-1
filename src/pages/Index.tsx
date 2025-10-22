@@ -132,7 +132,8 @@ export default function Index() {
 
     // Открываем Telegram бот с параметрами заказа
     const botUsername = 'EmeraldworldBot';
-    const orderData = `${selectedDonation.id}_${username.trim()}_${selectedDonation.price}`;
+    const serverName = 'Pvpgrand';
+    const orderData = `${serverName}_${selectedDonation.id}_${username.trim()}_${selectedDonation.price}`;
     const telegramUrl = `https://t.me/${botUsername}?start=${encodeURIComponent(orderData)}`;
     
     window.open(telegramUrl, '_blank');
