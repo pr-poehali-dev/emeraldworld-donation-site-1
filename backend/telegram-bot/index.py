@@ -80,7 +80,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
 
 ⏱ Донат будет выдан в течение 5 минут после проверки оплаты
 
-❓ Вопросы? Напишите @admin"""
+❓ Вопросы? Напишите @Agerapvpclube"""
                     
                     send_message(bot_token, chat_id, payment_message)
                     
