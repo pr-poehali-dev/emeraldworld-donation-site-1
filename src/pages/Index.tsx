@@ -23,7 +23,9 @@ const donationTiers: DonationTier[] = [
   {
     id: 'king',
     name: 'Король',
-    price: 99,
+    price: 59,
+    oldPrice: 99,
+    discount: 40,
     icon: 'Crown',
     features: ['Приватная зона', 'Уникальный префикс', 'Доступ к VIP командам']
   },
