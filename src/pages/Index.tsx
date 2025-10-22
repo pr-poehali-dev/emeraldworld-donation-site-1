@@ -33,25 +33,25 @@ const donationTiers: DonationTier[] = [
     features: ['Огненные эффекты', 'Демонический скин', 'Особые способности']
   },
   {
-    id: 'emerald',
-    name: 'Изумруд',
-    price: 49,
-    icon: 'Gem',
-    features: ['Изумрудная броня', 'Бонус ресурсов', 'Доступ к изумрудному миру']
+    id: 'jester',
+    name: 'Шут',
+    price: 45,
+    icon: 'Drama',
+    features: ['Весёлые эффекты', 'Уникальные эмоции', 'Доступ к развлечениям']
   },
   {
-    id: 'devil',
-    name: 'Дьявол',
+    id: 'duke',
+    name: 'Герцог',
     price: 29,
-    icon: 'Skull',
-    features: ['Тёмная аура', 'Ускоренный опыт', 'Особый инвентарь']
+    icon: 'Castle',
+    features: ['Благородный титул', 'Ускоренный опыт', 'Особый инвентарь']
   },
   {
-    id: 'test',
-    name: 'Тестовый донат',
-    price: 30,
-    icon: 'TestTube',
-    features: ['Тестовые привилегии', 'Для проверки системы']
+    id: 'warrior',
+    name: 'Воин',
+    price: 15,
+    icon: 'Sword',
+    features: ['Боевые бонусы', 'Усиленное оружие', 'Доступ к арене']
   }
 ];
 
@@ -76,7 +76,7 @@ const newsItems = [
 const faqItems = [
   {
     question: 'Как зайти на сервер?',
-    answer: 'Используйте IP адрес: emeraldworld.aternos.me в Minecraft клиенте'
+    answer: 'Используйте IP адрес: pvpgrand.aternos.me в Minecraft клиенте'
   },
   {
     question: 'Какая версия Minecraft поддерживается?',
@@ -125,7 +125,7 @@ export default function Index() {
     if (!selectedDonation) return;
 
     // Открываем Telegram бот с параметрами заказа
-    const botUsername = 'EmeraldworldBot';
+    const botUsername = 'PvpgrandBot';
     const orderData = `${selectedDonation.id}_${username.trim()}_${selectedDonation.price}`;
     const telegramUrl = `https://t.me/${botUsername}?start=${encodeURIComponent(orderData)}`;
     
@@ -269,28 +269,28 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <nav className="sticky top-0 z-50 bg-black/90 backdrop-blur-sm border-b border-emerald-700">
+      <nav className="sticky top-0 z-50 bg-black/90 backdrop-blur-sm border-b border-red-700">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-8">
-              <button onClick={() => scrollToSection('hero')} className="minecraft-text text-emerald-500 text-xl hover:text-emerald-400 transition-colors">
-                EMERALDWORLD
+              <button onClick={() => scrollToSection('hero')} className="minecraft-text text-red-500 text-xl hover:text-red-400 transition-colors">
+                PVPGRAND
               </button>
               <div className="hidden md:flex space-x-6">
-                <button onClick={() => scrollToSection('hero')} className="hover:text-emerald-400 transition-colors">Главная</button>
-                <button onClick={() => scrollToSection('donations')} className="hover:text-emerald-400 transition-colors">Донаты</button>
-                <button onClick={() => scrollToSection('rules')} className="hover:text-emerald-400 transition-colors">Правила</button>
-                <button onClick={() => scrollToSection('news')} className="hover:text-emerald-400 transition-colors">Новости</button>
-                <button onClick={() => scrollToSection('faq')} className="hover:text-emerald-400 transition-colors">Вопросы и ответы</button>
-                <button onClick={() => scrollToSection('contacts')} className="hover:text-emerald-400 transition-colors">Контакты</button>
+                <button onClick={() => scrollToSection('hero')} className="hover:text-red-400 transition-colors">Главная</button>
+                <button onClick={() => scrollToSection('donations')} className="hover:text-red-400 transition-colors">Донаты</button>
+                <button onClick={() => scrollToSection('rules')} className="hover:text-red-400 transition-colors">Правила</button>
+                <button onClick={() => scrollToSection('news')} className="hover:text-red-400 transition-colors">Новости</button>
+                <button onClick={() => scrollToSection('faq')} className="hover:text-red-400 transition-colors">Вопросы и ответы</button>
+                <button onClick={() => scrollToSection('contacts')} className="hover:text-red-400 transition-colors">Контакты</button>
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <Button onClick={() => window.location.href = '/dashboard'} variant="outline" className="border-emerald-600 text-emerald-400 hover:bg-emerald-950">
+              <Button onClick={() => window.location.href = '/dashboard'} variant="outline" className="border-red-600 text-red-400 hover:bg-red-950">
                 <Icon name="LayoutDashboard" className="mr-2" size={16} />
                 Мои серверы
               </Button>
-              <Button onClick={() => scrollToSection('donations')} className="bg-emerald-600 hover:bg-emerald-700">
+              <Button onClick={() => scrollToSection('donations')} className="bg-red-600 hover:bg-red-700">
                 Купить донат
               </Button>
             </div>
@@ -299,56 +299,56 @@ export default function Index() {
       </nav>
 
       <section id="hero" className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-emerald-950/50 via-black to-black"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-red-950/50 via-black to-black"></div>
         <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23059669' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23DC2626' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
         }}></div>
         
         <div className="relative z-10 text-center px-4">
           <h1 className="minecraft-text text-4xl md:text-5xl font-black mb-4 animate-fade-in">
             <span className="text-black bg-clip-text" style={{
-              WebkitTextStroke: '2px #059669',
+              WebkitTextStroke: '2px #DC2626',
               paintOrder: 'stroke fill'
-            }}>EMERALD</span>
+            }}>PVP</span>
             <span className="text-black bg-clip-text" style={{
-              WebkitTextStroke: '2px #059669',
+              WebkitTextStroke: '2px #DC2626',
               paintOrder: 'stroke fill'
-            }}>WORLD</span>
+            }}>GRAND</span>
           </h1>
-          <p className="text-base md:text-lg text-emerald-400 mb-6 animate-fade-in font-semibold">
+          <p className="text-base md:text-lg text-red-400 mb-6 animate-fade-in font-semibold">
             Лучший Minecraft сервер с уникальными возможностями
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center animate-fade-in">
-            <Button onClick={() => scrollToSection('donations')} className="bg-emerald-600 hover:bg-emerald-700 px-6">
+            <Button onClick={() => scrollToSection('donations')} className="bg-red-600 hover:bg-red-700 px-6">
               <Icon name="Gem" className="mr-2" size={18} />
               Донаты
             </Button>
-            <Button variant="outline" onClick={() => scrollToSection('rules')} className="border-emerald-600 text-emerald-400 hover:bg-emerald-950 px-6">
+            <Button variant="outline" onClick={() => scrollToSection('rules')} className="border-red-600 text-red-400 hover:bg-red-950 px-6">
               Правила сервера
             </Button>
           </div>
-          <div className="mt-8 inline-flex items-center gap-2 px-4 py-2 bg-emerald-950/50 border border-emerald-700 rounded">
-            <Icon name="Server" className="text-emerald-400" size={18} />
-            <span className="text-emerald-400 font-semibold text-sm">IP: emeraldworld.aternos.me</span>
+          <div className="mt-8 inline-flex items-center gap-2 px-4 py-2 bg-red-950/50 border border-red-700 rounded">
+            <Icon name="Server" className="text-red-400" size={18} />
+            <span className="text-red-400 font-semibold text-sm">IP: pvpgrand.aternos.me</span>
           </div>
         </div>
       </section>
 
-      <section className="py-8 bg-black border-y border-emerald-900/30">
+      <section className="py-8 bg-black border-y border-red-900/30">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <Icon name="TrendingUp" className="text-emerald-400" size={20} />
-            <h3 className="minecraft-text text-xl text-emerald-400">ПОСЛЕДНИЕ ПОКУПКИ</h3>
+            <Icon name="TrendingUp" className="text-red-400" size={20} />
+            <h3 className="minecraft-text text-xl text-red-400">ПОСЛЕДНИЕ ПОКУПКИ</h3>
           </div>
           <div className="max-w-4xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
               {recentPurchases.map((purchase, idx) => (
-                <div key={idx} className="bg-gradient-to-r from-emerald-950/30 to-black border border-emerald-800/50 rounded-lg p-3 hover:border-emerald-600/50 transition-all">
+                <div key={idx} className="bg-gradient-to-r from-red-950/30 to-black border border-red-800/50 rounded-lg p-3 hover:border-red-600/50 transition-all">
                   <div className="flex items-start gap-2">
-                    <Icon name="User" className="text-emerald-500 flex-shrink-0 mt-0.5" size={14} />
+                    <Icon name="User" className="text-red-500 flex-shrink-0 mt-0.5" size={14} />
                     <div className="flex-1 min-w-0">
-                      <p className="text-emerald-300 font-semibold text-xs truncate">{purchase.username}</p>
-                      <p className="text-emerald-400 text-xs font-bold">{purchase.tier}</p>
+                      <p className="text-red-300 font-semibold text-xs truncate">{purchase.username}</p>
+                      <p className="text-red-400 text-xs font-bold">{purchase.tier}</p>
                       <p className="text-gray-500 text-xs mt-1">{purchase.time}</p>
                     </div>
                   </div>
@@ -359,28 +359,28 @@ export default function Index() {
         </div>
       </section>
 
-      <section id="donations" className="py-12 bg-gradient-to-b from-black to-emerald-950/20">
+      <section id="donations" className="py-12 bg-gradient-to-b from-black to-red-950/20">
         <div className="container mx-auto px-4">
-          <h2 className="minecraft-text text-3xl md:text-4xl text-center mb-3 text-emerald-400">ДОНАТЫ</h2>
+          <h2 className="minecraft-text text-3xl md:text-4xl text-center mb-3 text-red-400">ДОНАТЫ</h2>
           <p className="text-center text-gray-400 mb-8 max-w-2xl mx-auto text-sm">
             Поддержите сервер и получите уникальные привилегии
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {donationTiers.map((tier) => (
-              <Card key={tier.id} className="bg-gradient-to-b from-emerald-950/50 to-black border-emerald-700 hover:border-emerald-500 transition-all hover:scale-105">
+              <Card key={tier.id} className="bg-gradient-to-b from-red-950/50 to-black border-red-700 hover:border-red-500 transition-all hover:scale-105">
                 <CardHeader className="text-center">
-                  <div className="mx-auto mb-3 w-12 h-12 bg-emerald-600 rounded-lg flex items-center justify-center">
+                  <div className="mx-auto mb-3 w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center">
                     <Icon name={tier.icon as any} size={24} className="text-white" />
                   </div>
-                  <CardTitle className="minecraft-text text-xl text-emerald-400">{tier.name}</CardTitle>
+                  <CardTitle className="minecraft-text text-xl text-red-400">{tier.name}</CardTitle>
                   <CardDescription className="text-2xl font-bold text-white mt-2">{tier.price}₽</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-2">
                     {tier.features.map((feature, idx) => (
                       <li key={idx} className="flex items-start gap-2">
-                        <Icon name="Check" size={14} className="text-emerald-400 mt-1 flex-shrink-0" />
+                        <Icon name="Check" size={14} className="text-red-400 mt-1 flex-shrink-0" />
                         <span className="text-xs text-gray-300">{feature}</span>
                       </li>
                     ))}
@@ -393,35 +393,35 @@ export default function Index() {
                   }}>
                     <DialogTrigger asChild>
                       <Button 
-                        className="w-full bg-emerald-600 hover:bg-emerald-700"
+                        className="w-full bg-red-600 hover:bg-red-700"
                         onClick={() => setSelectedDonation(tier)}
                       >
                         Купить
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="bg-black border-emerald-700">
+                    <DialogContent className="bg-black border-red-700">
                       <DialogHeader>
-                        <DialogTitle className="minecraft-text text-emerald-400">Покупка доната {tier.name}</DialogTitle>
+                        <DialogTitle className="minecraft-text text-red-400">Покупка доната {tier.name}</DialogTitle>
                         <DialogDescription className="text-gray-400">
                           Стоимость: {tier.price}₽
                         </DialogDescription>
                       </DialogHeader>
                       <div className="space-y-4 py-4">
                         <div className="space-y-2">
-                          <Label htmlFor="username" className="text-emerald-400">Ваш игровой ник</Label>
+                          <Label htmlFor="username" className="text-red-400">Ваш игровой ник</Label>
                           <Input
                             id="username"
                             placeholder="Steve"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            className="bg-emerald-950/30 border-emerald-700 text-white"
+                            className="bg-red-950/30 border-red-700 text-white"
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label className="text-emerald-400">Выбранный донат</Label>
-                          <div className="p-3 bg-emerald-950/30 border border-emerald-700 rounded">
+                          <Label className="text-red-400">Выбранный донат</Label>
+                          <div className="p-3 bg-red-950/30 border border-red-700 rounded">
                             <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 bg-emerald-600 rounded flex items-center justify-center">
+                              <div className="w-10 h-10 bg-red-600 rounded flex items-center justify-center">
                                 <Icon name={tier.icon as any} size={20} className="text-white" />
                               </div>
                               <div>
@@ -435,7 +435,7 @@ export default function Index() {
                       <Button 
                         onClick={handlePurchase} 
                         disabled={isProcessing}
-                        className="w-full bg-emerald-600 hover:bg-emerald-700"
+                        className="w-full bg-red-600 hover:bg-red-700"
                       >
                         {isProcessing ? 'Обработка...' : 'Перейти к оплате'}
                       </Button>
@@ -450,12 +450,12 @@ export default function Index() {
 
       <section id="rules" className="py-12 bg-black">
         <div className="container mx-auto px-4 max-w-4xl">
-          <h2 className="minecraft-text text-3xl md:text-4xl text-center mb-8 text-emerald-400">ПРАВИЛА</h2>
+          <h2 className="minecraft-text text-3xl md:text-4xl text-center mb-8 text-red-400">ПРАВИЛА</h2>
           
           <div className="space-y-6">
-            <Card className="bg-gradient-to-r from-emerald-950/50 to-black border-emerald-700">
+            <Card className="bg-gradient-to-r from-red-950/50 to-black border-red-700">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-emerald-400 text-base">
+                <CardTitle className="flex items-center gap-2 text-red-400 text-base">
                   <Icon name="Shield" size={20} />
                   1. Уважение к игрокам
                 </CardTitle>
@@ -465,9 +465,9 @@ export default function Index() {
               </CardContent>
             </Card>
 
-            <Card className="bg-gradient-to-r from-emerald-950/50 to-black border-emerald-700">
+            <Card className="bg-gradient-to-r from-red-950/50 to-black border-red-700">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-emerald-400 text-base">
+                <CardTitle className="flex items-center gap-2 text-red-400 text-base">
                   <Icon name="Ban" size={20} />
                   2. Читы и моды
                 </CardTitle>
@@ -477,9 +477,9 @@ export default function Index() {
               </CardContent>
             </Card>
 
-            <Card className="bg-gradient-to-r from-emerald-950/50 to-black border-emerald-700">
+            <Card className="bg-gradient-to-r from-red-950/50 to-black border-red-700">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-emerald-400 text-base">
+                <CardTitle className="flex items-center gap-2 text-red-400 text-base">
                   <Icon name="Home" size={20} />
                   3. Гриферство
                 </CardTitle>
@@ -489,9 +489,9 @@ export default function Index() {
               </CardContent>
             </Card>
 
-            <Card className="bg-gradient-to-r from-emerald-950/50 to-black border-emerald-700">
+            <Card className="bg-gradient-to-r from-red-950/50 to-black border-red-700">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-emerald-400 text-base">
+                <CardTitle className="flex items-center gap-2 text-red-400 text-base">
                   <Icon name="MessageSquare" size={20} />
                   4. Спам и реклама
                 </CardTitle>
@@ -501,9 +501,9 @@ export default function Index() {
               </CardContent>
             </Card>
 
-            <Card className="bg-gradient-to-r from-emerald-950/50 to-black border-emerald-700">
+            <Card className="bg-gradient-to-r from-red-950/50 to-black border-red-700">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-emerald-400 text-base">
+                <CardTitle className="flex items-center gap-2 text-red-400 text-base">
                   <Icon name="Bug" size={20} />
                   5. Баги и эксплойты
                 </CardTitle>
@@ -516,20 +516,20 @@ export default function Index() {
         </div>
       </section>
 
-      <section id="news" className="py-12 bg-gradient-to-b from-black to-emerald-950/20">
+      <section id="news" className="py-12 bg-gradient-to-b from-black to-red-950/20">
         <div className="container mx-auto px-4 max-w-4xl">
-          <h2 className="minecraft-text text-3xl md:text-4xl text-center mb-8 text-emerald-400">НОВОСТИ</h2>
+          <h2 className="minecraft-text text-3xl md:text-4xl text-center mb-8 text-red-400">НОВОСТИ</h2>
           
           <div className="space-y-6">
             {newsItems.map((item, idx) => (
-              <Card key={idx} className="bg-gradient-to-r from-emerald-950/50 to-black border-emerald-700 hover:border-emerald-500 transition-all">
+              <Card key={idx} className="bg-gradient-to-r from-red-950/50 to-black border-red-700 hover:border-red-500 transition-all">
                 <CardHeader>
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
-                      <CardTitle className="text-emerald-400 mb-2 text-base">{item.title}</CardTitle>
+                      <CardTitle className="text-red-400 mb-2 text-base">{item.title}</CardTitle>
                       <CardDescription className="text-gray-400 text-sm">{item.description}</CardDescription>
                     </div>
-                    <div className="text-xs text-emerald-500 whitespace-nowrap">
+                    <div className="text-xs text-red-500 whitespace-nowrap">
                       <Icon name="Calendar" size={12} className="inline mr-1" />
                       {item.date}
                     </div>
@@ -543,12 +543,12 @@ export default function Index() {
 
       <section id="faq" className="py-12 bg-black">
         <div className="container mx-auto px-4 max-w-4xl">
-          <h2 className="minecraft-text text-3xl md:text-4xl text-center mb-8 text-emerald-400">ВОПРОСЫ И ОТВЕТЫ</h2>
+          <h2 className="minecraft-text text-3xl md:text-4xl text-center mb-8 text-red-400">ВОПРОСЫ И ОТВЕТЫ</h2>
           
           <Accordion type="single" collapsible className="space-y-4">
             {faqItems.map((item, idx) => (
-              <AccordionItem key={idx} value={`item-${idx}`} className="border border-emerald-700 rounded-lg px-6 bg-emerald-950/30">
-                <AccordionTrigger className="text-emerald-400 hover:text-emerald-300 text-sm">
+              <AccordionItem key={idx} value={`item-${idx}`} className="border border-red-700 rounded-lg px-6 bg-red-950/30">
+                <AccordionTrigger className="text-red-400 hover:text-red-300 text-sm">
                   {item.question}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-300 text-sm">
@@ -560,83 +560,83 @@ export default function Index() {
         </div>
       </section>
 
-      <section id="contacts" className="py-12 bg-gradient-to-b from-black to-emerald-950/20">
+      <section id="contacts" className="py-12 bg-gradient-to-b from-black to-red-950/20">
         <div className="container mx-auto px-4 max-w-4xl text-center">
-          <h2 className="minecraft-text text-3xl md:text-4xl mb-8 text-emerald-400">КОНТАКТЫ</h2>
+          <h2 className="minecraft-text text-3xl md:text-4xl mb-8 text-red-400">КОНТАКТЫ</h2>
           
           <div className="grid md:grid-cols-3 gap-6 mb-12">
-            <Card className="bg-gradient-to-b from-emerald-950/50 to-black border-emerald-700">
+            <Card className="bg-gradient-to-b from-red-950/50 to-black border-red-700">
               <CardHeader>
-                <div className="mx-auto w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center mb-2">
+                <div className="mx-auto w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center mb-2">
                   <Icon name="Mail" size={20} />
                 </div>
-                <CardTitle className="text-emerald-400 text-base">Email</CardTitle>
+                <CardTitle className="text-red-400 text-base">Email</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-300 text-sm">support@emeraldworld.ru</p>
+                <p className="text-gray-300 text-sm">support@pvpgrand.ru</p>
               </CardContent>
             </Card>
 
-            <Card className="bg-gradient-to-b from-emerald-950/50 to-black border-emerald-700">
+            <Card className="bg-gradient-to-b from-red-950/50 to-black border-red-700">
               <CardHeader>
-                <div className="mx-auto w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center mb-2">
+                <div className="mx-auto w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center mb-2">
                   <Icon name="MessageCircle" size={20} />
                 </div>
-                <CardTitle className="text-emerald-400 text-base">Discord</CardTitle>
+                <CardTitle className="text-red-400 text-base">Discord</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-300 text-sm">discord.gg/emeraldworld</p>
+                <p className="text-gray-300 text-sm">discord.gg/pvpgrand</p>
               </CardContent>
             </Card>
 
-            <Card className="bg-gradient-to-b from-emerald-950/50 to-black border-emerald-700">
+            <Card className="bg-gradient-to-b from-red-950/50 to-black border-red-700">
               <CardHeader>
-                <div className="mx-auto w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center mb-2">
+                <div className="mx-auto w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center mb-2">
                   <Icon name="Send" size={20} />
                 </div>
-                <CardTitle className="text-emerald-400 text-base">Telegram</CardTitle>
+                <CardTitle className="text-red-400 text-base">Telegram</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-300 text-sm">@emeraldworld</p>
+                <p className="text-gray-300 text-sm">@pvpgrand</p>
               </CardContent>
             </Card>
           </div>
 
-          <Separator className="bg-emerald-700 my-8" />
+          <Separator className="bg-red-700 my-8" />
 
           <div className="mb-8 flex flex-col gap-4 items-center">
             <Dialog open={isHostingDialogOpen} onOpenChange={setIsHostingDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 px-8 py-6 text-lg">
+                <Button className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 px-8 py-6 text-lg">
                   <Icon name="Server" className="mr-2" size={24} />
                   Создать свой Minecraft сервер
                 </Button>
               </DialogTrigger>
-              <DialogContent className="bg-gradient-to-b from-emerald-950 to-black border-emerald-700">
+              <DialogContent className="bg-gradient-to-b from-red-950 to-black border-red-700">
                 <DialogHeader>
-                  <DialogTitle className="minecraft-text text-emerald-400 text-2xl">СОЗДАТЬ СЕРВЕР</DialogTitle>
+                  <DialogTitle className="minecraft-text text-red-400 text-2xl">СОЗДАТЬ СЕРВЕР</DialogTitle>
                   <DialogDescription className="text-gray-400">
                     Создайте свой собственный Minecraft сервер за минуту
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4 py-4">
                   <div>
-                    <Label htmlFor="server-name" className="text-emerald-400">Название сервера</Label>
+                    <Label htmlFor="server-name" className="text-red-400">Название сервера</Label>
                     <Input
                       id="server-name"
                       placeholder="Мой крутой сервер"
                       value={serverName}
                       onChange={(e) => setServerName(e.target.value)}
-                      className="bg-black border-emerald-700 text-white mt-2"
+                      className="bg-black border-red-700 text-white mt-2"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="server-version" className="text-emerald-400">Версия Minecraft</Label>
+                    <Label htmlFor="server-version" className="text-red-400">Версия Minecraft</Label>
                     <select
                       id="server-version"
                       value={serverVersion}
                       onChange={(e) => setServerVersion(e.target.value)}
-                      className="w-full mt-2 bg-black border border-emerald-700 text-white rounded-md px-3 py-2"
+                      className="w-full mt-2 bg-black border border-red-700 text-white rounded-md px-3 py-2"
                     >
                       <option value="1.20.1">1.20.1 (последняя)</option>
                       <option value="1.19.4">1.19.4</option>
@@ -646,14 +646,14 @@ export default function Index() {
                     </select>
                   </div>
                   <div>
-                    <Label htmlFor="server-ip" className="text-emerald-400">IP адрес вашего сервера</Label>
+                    <Label htmlFor="server-ip" className="text-red-400">IP адрес вашего сервера</Label>
                     <div className="flex gap-2 mt-2">
                       <Input
                         id="server-ip"
                         placeholder="Например: 192.168.1.100"
                         value={serverIp}
                         onChange={(e) => setServerIp(e.target.value)}
-                        className="bg-black border-emerald-700 text-white flex-1"
+                        className="bg-black border-red-700 text-white flex-1"
                       />
                       <Button
                         type="button"
@@ -667,7 +667,7 @@ export default function Index() {
                           }
                         }}
                         variant="outline"
-                        className="border-emerald-700 text-emerald-400"
+                        className="border-red-700 text-red-400"
                       >
                         Мой IP
                       </Button>
@@ -676,26 +676,26 @@ export default function Index() {
                       Укажите IP вашего компьютера/VPS или нажмите "Мой IP" для автоопределения
                     </p>
                   </div>
-                  <div className="bg-emerald-950/30 border border-emerald-800 rounded-lg p-4">
-                    <h4 className="text-emerald-400 font-semibold mb-2 flex items-center gap-2">
+                  <div className="bg-red-950/30 border border-red-800 rounded-lg p-4">
+                    <h4 className="text-red-400 font-semibold mb-2 flex items-center gap-2">
                       <Icon name="CheckCircle" size={18} />
                       Что включено:
                     </h4>
                     <ul className="space-y-1 text-sm text-gray-300">
                       <li className="flex items-center gap-2">
-                        <Icon name="Check" size={14} className="text-emerald-400" />
+                        <Icon name="Check" size={14} className="text-red-400" />
                         Готовый сервер с плагинами PaperMC
                       </li>
                       <li className="flex items-center gap-2">
-                        <Icon name="Check" size={14} className="text-emerald-400" />
+                        <Icon name="Check" size={14} className="text-red-400" />
                         До 20 игроков через Radmin VPN
                       </li>
                       <li className="flex items-center gap-2">
-                        <Icon name="Check" size={14} className="text-emerald-400" />
+                        <Icon name="Check" size={14} className="text-red-400" />
                         Файлы запуска для Windows/Linux/Mac
                       </li>
                       <li className="flex items-center gap-2">
-                        <Icon name="Check" size={14} className="text-emerald-400" />
+                        <Icon name="Check" size={14} className="text-red-400" />
                         Подробная инструкция по настройке
                       </li>
                     </ul>
@@ -704,7 +704,7 @@ export default function Index() {
                 <Button 
                   onClick={handleCreateServer} 
                   disabled={isCreatingServer}
-                  className="w-full bg-emerald-600 hover:bg-emerald-700"
+                  className="w-full bg-red-600 hover:bg-red-700"
                 >
                   {isCreatingServer ? 'Создаём сервер...' : 'Создать сервер'}
                 </Button>
@@ -719,7 +719,7 @@ export default function Index() {
                 link.click();
               }}
               variant="outline"
-              className="border-emerald-600 text-emerald-400 hover:bg-emerald-950 px-6"
+              className="border-red-600 text-red-400 hover:bg-red-950 px-6"
             >
               <Icon name="Download" className="mr-2" size={18} />
               Скачать плагины
@@ -727,7 +727,7 @@ export default function Index() {
           </div>
 
           <p className="text-gray-400 text-sm">
-            © 2025 EmeraldWorld. Все права защищены.
+            © 2025 PVPGrand. Все права защищены.
           </p>
         </div>
       </section>
